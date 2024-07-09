@@ -72,6 +72,14 @@
                 nextArrow: '<button type="button" class="slick-next slick-arrow">&#10095;</button>'
             });
         });
+
+        $(window).on('scroll', function() {
+            if ($(this).scrollTop() > 50) {
+                $('header').addClass('scrolled');
+            } else {
+                $('header').removeClass('scrolled');
+            }
+        });
     </script>
 </body>
 </html>
