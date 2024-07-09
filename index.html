@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ceviz Bahçesi</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -21,10 +22,11 @@
         </div>
     </header>
     <main>
-        <section class="hero">
-            <div class="hero-content container">
-                <h1>Ceviz Bahçemize Hoş Geldiniz</h1>
-                <p>Çanakkale, Akçapınar, Hasanlar mevkiinde bulunan ceviz bahçemiz hakkında bilgi alın.</p>
+        <section class="slider-container">
+            <div class="slider">
+                <div><img src="images/farm1.jpg" alt="Bahçe Resmi 1" class="responsive-img"></div>
+                <div><img src="images/farm2.jpg" alt="Bahçe Resmi 2" class="responsive-img"></div>
+                <div><img src="images/farm3.jpg" alt="Bahçe Resmi 3" class="responsive-img"></div>
             </div>
         </section>
         <section class="details container">
@@ -51,5 +53,25 @@
             <p>&copy; 2024 Ceviz Bahçesi</p>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.slider').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                adaptiveHeight: true,
+                arrows: true,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                fade: true,
+                cssEase: 'linear',
+                prevArrow: '<button type="button" class="slick-prev slick-arrow">&#10094;</button>',
+                nextArrow: '<button type="button" class="slick-next slick-arrow">&#10095;</button>'
+            });
+        });
+    </script>
 </body>
 </html>
