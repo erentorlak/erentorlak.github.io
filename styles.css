@@ -53,11 +53,21 @@ header .container {
     align-items: center;
     justify-content: space-between;
 }
-
-header .logo {
-    height: 60px;
+.logo-container {
+    display: flex;
+    align-items: center;
 }
 
+header .logo {
+    width: 100px;
+    height: 80px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+header .logo:hover {
+    transform: skew(-10deg);
+    
+}
 header nav {
     flex-grow: 1;
     text-align: right;
@@ -159,6 +169,7 @@ header nav ul li a.active::after {
 /* Main content styles */
 main {
     padding: 40px 0;
+    
 }
 
 main .details {
