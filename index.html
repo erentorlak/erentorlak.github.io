@@ -12,6 +12,11 @@
     <header>
         <div class="container">
             <a href="index.html"><img src="images/logo.jpg" alt="Ceviz Bahçesi Logosu" class="logo"></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Ana Sayfa</a></li>
@@ -34,7 +39,7 @@
         <section class="products container">
             <h2>Ürünlerimiz</h2>
             <div class="product">
-                <img src="images/sat.jpg" alt="Ceviz Ürünü" class="responsive-img" style="width: 20%; height: 20%;">
+                <img src="images/sat.jpg" alt="Ceviz Ürünü" class="responsive-img" style="max-width: 300px; height: auto;">
                 <h3>Ceviz Ürünü</h3>
                 <p>Lezzetli ve taze cevizlerimiz hakkında bilgi alın.</p>
                 <a href="ceviz-satis.html" class="button">Daha Fazla Bilgi</a>
@@ -72,6 +77,13 @@
             } else {
                 $('header').removeClass('scrolled');
             }
+        });
+
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navList = document.querySelector('nav ul');
+        mobileMenu.addEventListener('click', function() {
+            navList.classList.toggle('active');
+            mobileMenu.classList.toggle('is-active');
         });
     </script>
 </body>

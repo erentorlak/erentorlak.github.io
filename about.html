@@ -11,6 +11,11 @@
     <header>
         <div class="container">
             <a href="index.html"><img src="images/logo.jpg" alt="Ceviz Bahçesi Logosu" class="logo"></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Ana Sayfa</a></li>
@@ -22,7 +27,7 @@
         </div>
     </header>
     <main>
-        <section class="container">
+        <section class="container" style="margin-top: 100px;">
             <h1>Ceviz Bahçemiz Hakkında</h1>
             <section class="details">   
                 <h2>Bahçe Detayları</h2>
@@ -93,5 +98,13 @@
             <p>&copy; trceviz - Mahmut Torlak - 0533 519 52 22 </p>
         </div>
     </footer>
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navList = document.querySelector('nav ul');
+        mobileMenu.addEventListener('click', function() {
+            navList.classList.toggle('active');
+            mobileMenu.classList.toggle('is-active');
+        });
+    </script>
 </body>
 </html>

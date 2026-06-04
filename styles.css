@@ -9,8 +9,8 @@
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #faf9f6;
+    color: #4a4a4a;
 }
 
 /* Anchor tag styles */
@@ -32,7 +32,7 @@ a:hover {
 
 /* Header styles */
 header {
-    background-color: #302002;
+    background-color: #5c4033;
     color: white;
     padding: 10px 0;
     position: fixed;
@@ -45,7 +45,7 @@ header {
 }
 
 header.scrolled {
-    background-color: #1e1e1e;
+    background-color: #3b2f2f;
 }
 
 header .container {
@@ -85,6 +85,36 @@ header nav ul li {
     position: relative;
 }
 
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+    transition: 0.4s;
+    border-radius: 2px;
+}
+
+/* Active State for Hamburger */
+.menu-toggle.is-active .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu-toggle.is-active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.is-active .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
 header nav ul li a {
     font-weight: bold;
     padding: 10px 15px;
@@ -97,7 +127,7 @@ header nav ul li a::after {
     display: block;
     width: 0;
     height: 2px;
-    background: #FFEB3B;
+    background: #8fbc8f;
     transition: width 0.3s;
     position: absolute;
     left: 50%;
@@ -113,15 +143,22 @@ header nav ul li a.active::after {
 /* Slider styles */
 .slider-container {
     width: 100%;
-    height: 100vh;
+    height: 80vh;
     position: relative;
     overflow: hidden;
+    margin-top: 100px;
 }
 
 .slider .responsive-img {
     width: 100%;
-    height: 100vh;
+    height: 80vh;
     object-fit: cover;
+    margin-top: 0;
+    border-radius: 0;
+}
+
+.slider .responsive-img:hover {
+    transform: none;
 }
 
 .slick-prev, .slick-next {
@@ -163,7 +200,7 @@ header nav ul li a.active::after {
 }
 
 .slick-dots li.slick-active button::before {
-    color: #FFEB3B;
+    color: #8fbc8f;
 }
 
 /* Main content styles */
@@ -185,12 +222,20 @@ main .details:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
+main h1 {
+    font-size: 2.5em;
+    color: #5c4033;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 main h2 {
     margin-bottom: 20px;
     font-size: 2em;
-    border-bottom: 2px solid #4CAF50;
+    border-bottom: 2px solid #8fbc8f;
     padding-bottom: 10px;
     display: inline-block;
+    color: #5c4033;
 }
 
 .products {
@@ -229,15 +274,18 @@ main h2 {
 .button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #6b8e23;
     color: white;
     border-radius: 5px;
     text-transform: uppercase;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .button:hover {
-    background-color: #333;
+    background-color: #556b2f;
+    transform: translateY(-2px);
+    color: white;
 }
 
 .responsive-img {
@@ -259,14 +307,14 @@ main h2 {
 }
 
 footer {
-    background: #333;
+    background: #3b2f2f;
     color: white;
     text-align: center;
     padding: 20px 0;
     position: relative;
     bottom: 0;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 footer p {
@@ -275,26 +323,65 @@ footer p {
 
 /* Media queries */
 @media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
     header .container {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+        width: 100%;
     }
 
     header .logo {
-        margin-bottom: 20px;
+        margin-bottom: 0;
+        width: 80px;
+        height: 64px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    header nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #302002;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
     }
 
     header nav ul {
         flex-direction: column;
+        padding: 20px 0;
+        display: none;
+    }
+
+    header nav ul.active {
+        display: flex;
     }
 
     header nav ul li {
         margin: 10px 0;
     }
 
+    .slider-container {
+        height: 40vh;
+        margin-top: 70px;
+    }
+
+    .slider .responsive-img {
+        height: 40vh;
+    }
+
     .slick-prev, .slick-next {
-        font-size: 24px;
-        width: 30px;
-        height: 30px;
+        font-size: 20px;
+        width: 25px;
+        height: 25px;
     }
 
     .slick-prev::before, .slick-next::before {
@@ -307,5 +394,28 @@ footer p {
 
     main {
         padding: 20px 0;
+    }
+
+    main h1 {
+        font-size: 2em;
+    }
+
+    main h2 {
+        font-size: 1.5em;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .product img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Fixed top margin for non-index pages in mobile */
+    main section.container[style*="margin-top"] {
+        margin-top: 80px !important;
     }
 }
