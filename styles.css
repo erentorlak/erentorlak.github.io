@@ -808,58 +808,6 @@ p { max-width: 68ch; }
   * { animation: none !important; }
 }
 
-/* ============ 3D ceviz sahnesi ============ */
-.walnut-grid {
-  display: grid;
-  grid-template-columns: 5fr 6fr;
-  gap: clamp(36px, 5vw, 72px);
-  align-items: center;
-}
-.walnut-grid > * { min-width: 0; }
-.walnut-copy p { color: var(--ink-70); margin-bottom: 14px; }
-.walnut-copy p strong { color: var(--ink); }
-.walnut-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-.walnut-stage {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  width: 100%;
-  max-width: 520px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: radial-gradient(120% 120% at 30% 18%, #3a4d37 0%, #26311f 52%, #131a0d 100%);
-  box-shadow: 0 34px 80px rgba(45, 36, 15, .28), inset 0 0 90px rgba(0, 0, 0, .35);
-  cursor: grab;
-  touch-action: pan-y;
-}
-.walnut-stage.dragging { cursor: grabbing; }
-.walnut-fallback {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: opacity .7s ease;
-}
-.walnut-stage.ready .walnut-fallback { opacity: 0; }
-.walnut-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.walnut-hint {
-  position: absolute;
-  bottom: 22px; left: 0; right: 0;
-  text-align: center;
-  font-size: .66rem;
-  font-weight: 600;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: rgba(247, 243, 239, .5);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .6s ease .3s;
-}
-.walnut-stage.ready .walnut-hint { opacity: 1; }
 /* ============ Yardımcı sınıflar ============ */
 .section-flush { padding-top: 0; }
 .quote-divider { margin-bottom: clamp(48px, 7vw, 80px); }
@@ -878,13 +826,12 @@ p { max-width: 68ch; }
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
   .stat + .stat::before { display: none; }
-  .product-grid, .split, .quote-grid, .contact-grid, .walnut-grid { grid-template-columns: 1fr; gap: 40px; }
+  .product-grid, .split, .quote-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .overview-grid { grid-template-columns: repeat(2, 1fr); }
   .quote-media { max-width: 380px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .header-tel span { display: none; }
   .header-tel { padding: 10px 12px; }
-  .walnut-stage { margin: 0 auto; }
 }
 
 @media (max-width: 720px) {
@@ -977,12 +924,4 @@ p { max-width: 68ch; }
   .mobile-telbar a svg { width: 17px; height: 17px; }
   .mobile-telbar .wa { background: var(--forest); }
   .mobile-telbar .wa svg { color: #7ddc8a; }
-}
-
-.walnut-credit {
-  margin-top: -8px;
-  font-size: .68rem;
-  letter-spacing: .04em;
-  color: var(--walnut);
-  opacity: .75;
 }
