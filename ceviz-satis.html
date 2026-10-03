@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ceviz Satış — TR Ceviz Bahçesi | Çanakkale Hasat Defteri</title>
-    <meta name="description" content="Çanakkale, Akçapınar. Kendi bahçemizde yetiştirilen, kendi tesisimizde kurutulup boylanan Chandler cevizi. 1 kg — 160 ₺ (2026 mahsulü). Tel: 0533 519 52 22">
-    <meta property="og:title" content="Ceviz Satış — TR Ceviz Bahçesi | Çanakkale Hasat Defteri">
-    <meta property="og:description" content="2026 hasadı Chandler cevizi, doğrudan bahçeden, aracısız. 1 kg — 160 ₺. Tel: 0533 519 52 22">
+    <title>Ceviz Satış — TR Ceviz Bahçesi | 2026 Hasadı</title>
+    <meta name="description" content="2026 hasadı Chandler cevizi 160 TL/kg. 1, 5 ve 10 kg seçenekleriyle doğrudan bahçeden. Sipariş: 0533 519 52 22">
+    <meta property="og:title" content="Ceviz Satış — TR Ceviz Bahçesi">
+    <meta property="og:description" content="2026 hasadı taze ceviz, 160 TL/kg. Doğrudan üreticiden, aracısız.">
     <meta property="og:image" content="images/sat.jpg">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,9 +25,6 @@
                 <img class="brand-logo" src="images/logo.jpg" alt="TR Ceviz Bahçesi logosu">
                 <span class="brand-name">TR Ceviz Bahçesi<span class="brand-sub">Çanakkale · Akçapınar</span></span>
             </a>
-            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="siteNav">
-                <span></span><span></span><span></span>
-            </button>
             <nav class="site-nav" id="siteNav" aria-label="Ana menü">
                 <ul>
                     <li><a href="index.html">Ana Sayfa</a></li>
@@ -36,76 +33,101 @@
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
             </nav>
+            <a class="header-tel" href="tel:+905335195222" aria-label="Telefon: 0533 519 52 22">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>0533 519 52 22</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="siteNav">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
     <main>
-        <!-- Hero -->
         <section class="page-hero">
             <div class="container">
-                <h1>Bu yılın hasadı, doğrudan bahçeden</h1>
-                <p>Kendi bahçemizde yetiştirdiğimiz Chandler cevizleri, kendi tesisimizde kurutulup boylanır. Aracısız.</p>
+                <span class="label label-light">2026 Hasadı · Stokta</span>
+                <h1>Ceviz satış</h1>
+                <p>Şubat 2026'da hasat edilen Chandler cevizleri; soyulmuş, kurutulmuş ve boyanmış olarak doğrudan bahçeden gönderilir.</p>
             </div>
         </section>
 
-        <!-- Ürün -->
         <section class="section">
             <div class="container">
-                <div class="shop-grid">
-                    <div class="shop-media">
-                        <span class="product-badge">2026 Hasadı</span>
-                        <img src="images/sat.jpg" alt="2026 hasadı doğal Chandler cevizi" loading="lazy">
+                <div class="product-grid">
+                    <div class="product-media reveal">
+                        <span class="product-badge">160 ₺/kg</span>
+                        <img src="images/sat.jpg" alt="Taze Chandler cevizi" loading="lazy">
                     </div>
-                    <div class="shop-info">
-                        <h1>Doğal Ceviz</h1>
-                        <p class="shop-desc">Hasattan çuvala her adım kayıtlı: cevizler 3 siloluk kurutma tesisimizde ısıtılmış hava ile kurutulur, boş–dolu ayırma makinesinden geçirilir, boylamp çuvallanır. Katkı yok, aracı yok.</p>
+                    <div class="reveal">
+                        <span class="label">Sipariş</span>
+                        <h2 style="margin-bottom:10px">Chandler cevizi</h2>
+                        <p class="product-desc" style="margin-bottom:22px">İri taneli, ince kabuklu, dolgun iç oranına sahip Chandler çeşidi. Katkısız ve doğal; kendi bahçemizden kendi tesisimizde işlenir.</p>
 
-                        <div class="buy-row">
-                            <span class="price-now">1 kg — 160 ₺</span>
-                            <span class="price-unit">/ kg · 2026 mahsulü</span>
-                            <a href="tel:+905335195222" class="btn btn-amber" style="margin-left:auto">Sipariş Ver</a>
-                        </div>
+                        <div class="order-box">
+                            <span class="order-label">Miktar seçin</span>
+                            <div class="qty-options" id="qtyOptions" role="group" aria-label="Miktar seçimi">
+                                <button class="qty-btn active" data-kg="1" data-price="160" type="button" aria-pressed="true">
+                                    <span class="qty-kg">1 kg</span>
+                                    <span class="qty-price">160 ₺</span>
+                                </button>
+                                <button class="qty-btn" data-kg="5" data-price="800" type="button" aria-pressed="false">
+                                    <span class="qty-kg">5 kg</span>
+                                    <span class="qty-price">800 ₺</span>
+                                </button>
+                                <button class="qty-btn" data-kg="10" data-price="1600" type="button" aria-pressed="false">
+                                    <span class="qty-kg">10 kg</span>
+                                    <span class="qty-price">1.600 ₺</span>
+                                </button>
+                            </div>
 
-                        <div class="note-card">
-                            <strong>Sipariş için:</strong> 0533 519 52 22 — Mahmut Torlak. Stok ve kargo detayları için arayın.
-                        </div>
+                            <div class="order-total">
+                                <span class="t-label">Toplam</span>
+                                <span class="t-value" id="orderTotal">160 ₺</span>
+                            </div>
 
-                        <div style="margin-top:28px">
-                            <div class="mono" style="margin-bottom:14px;color:var(--prussian)">Ürün kaydı</div>
-                            <ul class="checks">
-                                <li><span class="check-ic">✓</span> Chandler çeşidi — iri taneli</li>
-                                <li><span class="check-ic">✓</span> Kendi bahçemiz, aracısız</li>
-                                <li><span class="check-ic">✓</span> Damlama sulama, sensörlü</li>
-                                <li><span class="check-ic">✓</span> Kendi tesisimizde kurutulmuş</li>
-                                <li><span class="check-ic">✓</span> Boş–dolu ayrımı yapılmış</li>
-                            </ul>
+                            <div class="order-actions">
+                                <a class="btn btn-primary" id="waOrder" href="https://wa.me/905335195222?text=Merhaba%2C%201%20kg%20ceviz%20(160%20TL)%20sipari%C5%9Fi%20vermek%20istiyorum." target="_blank" rel="noopener">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                    WhatsApp'tan Sipariş Ver
+                                </a>
+                                <a class="btn btn-ink" href="tel:+905335195222">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                    Telefonla Sipariş: 0533 519 52 22
+                                </a>
+                            </div>
+                            <p class="order-note">Kargo ve teslimat detayları için aradığınızda bilgi verilir. Toplu alım için de ulaşabilirsiniz.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Ürün bilgi fişi -->
-        <section class="section-tight" style="padding-top:0">
+        <section class="section section-sand">
             <div class="container">
-                <div class="overview-grid">
-                    <div class="ov-card"><span class="k">Çeşit</span><span class="v">Chandler</span></div>
-                    <div class="ov-card"><span class="k">Hasat</span><span class="v">Eylül–Ekim</span></div>
-                    <div class="ov-card"><span class="k">Sezon</span><span class="v">2026</span></div>
-                    <div class="ov-card"><span class="k">Referans</span><span class="v">159/38</span></div>
+                <div class="section-head">
+                    <span class="label">Ürün bilgisi</span>
+                    <h2>Merak edilenler</h2>
                 </div>
+                <dl class="spec-list" style="background:var(--paper); padding: 6px 22px; border-radius:2px; max-width:640px">
+                    <div class="spec-row"><dt>Çeşit</dt><dd>Chandler</dd></div>
+                    <div class="spec-row"><dt>Hasat</dt><dd>Şubat 2026</dd></div>
+                    <div class="spec-row"><dt>Fiyat</dt><dd>160 ₺/kg (KDV dahil)</dd></div>
+                    <div class="spec-row"><dt>Menşe</dt><dd>Akçapınar, Çanakkale</dd></div>
+                    <div class="spec-row"><dt>İşlem</dt><dd>Soyulmuş, kurutulmuş, boyanmış</dd></div>
+                    <div class="spec-row"><dt>Saklama</dt><dd>Serin ve kuru yerde; buzdolabı önerilir</dd></div>
+                </dl>
             </div>
         </section>
 
-        <!-- CTA -->
         <section class="cta-band section-tight">
             <div class="container">
                 <div class="cta-inner">
                     <div>
-                        <h2>Siparişiniz için bugün arayın</h2>
-                        <p>2026 mahsulü sınırlıdır. Stok ve kargo detayları için telefonla ulaşın.</p>
+                        <h2>Doğrudan üreticiden alın</h2>
+                        <p>Aracı yok, bekleme yok. Bahçemizin 2026 hasadı siparişiniz için hazır.</p>
                     </div>
-                    <a href="tel:+905335195222" class="btn btn-dark">0533 519 52 22</a>
+                    <a href="tel:+905335195222" class="btn btn-amber">0533 519 52 22</a>
                 </div>
             </div>
         </section>
@@ -119,7 +141,7 @@
                         <img class="brand-logo" src="images/logo.jpg" alt="TR Ceviz Bahçesi logosu">
                         <span class="brand-name">TR Ceviz Bahçesi</span>
                     </a>
-                    <p>Çanakkale'nin Akçapınar köyünde, 2012'den beri sertifikalı Chandler cevizi bahçesi.</p>
+                    <p>Çanakkale Akçapınar'da 925 Chandler ağacıyla kurulu aile bahçesi. 2012'den beri kendi cevizini yetiştirir.</p>
                 </div>
                 <div>
                     <h4 class="footer-h">Sayfalar</h4>
@@ -135,8 +157,8 @@
                     <ul class="footer-contact">
                         <li>Mahmut Torlak</li>
                         <li><a href="tel:+905335195222">0533 519 52 22</a></li>
+                        <li><a href="https://wa.me/905335195222" target="_blank" rel="noopener">WhatsApp</a></li>
                         <li>Akçapınar · Çanakkale</li>
-                        <li>Ada/Parsel 159/38</li>
                     </ul>
                 </div>
             </div>
@@ -147,21 +169,16 @@
         </div>
     </footer>
 
-    <!-- Mobil telefon barı -->
+    <!-- Mobil sipariş barı -->
     <div class="mobile-telbar">
         <a href="tel:+905335195222">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Hemen Ara
         </a>
-        <a href="https://wa.me/905335195222" target="_blank" rel="noopener">
+        <a class="wa" href="https://wa.me/905335195222?text=Merhaba%2C%20ceviz%20sipari%C5%9Fi%20vermek%20istiyorum." target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             WhatsApp
         </a>
-    </div>
-
-    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Fotoğraf önizleme">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">&times;</button>
-        <img id="lightboxImg" src="" alt="Büyük fotoğraf">
     </div>
 
     <script src="script.js"></script>

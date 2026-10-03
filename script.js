@@ -2,21 +2,20 @@
 (function () {
     'use strict';
 
+    /* ---- Header scroll ---- */
     var header = document.getElementById('siteHeader');
-    var navToggle = document.getElementById('navToggle');
-    var siteNav = document.getElementById('siteNav');
-
-    /* Header scroll */
     function onScroll() {
-        if (header) {
-            if (window.scrollY > 30) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        }
+        if (!header) return;
+        if (window.scrollY > 30) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* Mobil menü */
+    /* ---- Mobil menü ---- */
+    var navToggle = document.getElementById('navToggle');
+    var siteNav = document.getElementById('siteNav');
+
     function closeNav() {
         if (!siteNav) return;
         siteNav.classList.remove('open');
@@ -41,7 +40,7 @@
         });
     }
 
-    /* Galeri lightbox */
+    /* ---- Galeri lightbox ---- */
     var lightbox = document.getElementById('lightbox');
     var lightboxImg = document.getElementById('lightboxImg');
     var lightboxClose = document.getElementById('lightboxClose');
@@ -79,4 +78,56 @@
             closeLightbox();
         }
     });
+
+    /* ---- Sipariş: miktar seçici + WhatsApp linki ---- */
+    var qtyOptions = document.getElementById('qtyOptions');
+    if (qtyOptions) {
+        var orderTotal = document.getElementById('orderTotal');
+        var waOrder = document.getElementById('waOrder');
+        var PHONE = '905335195222';
+
+        function formatTL(n) {
+            return n.toLocaleString('tr-TR') + ' ₺';
+        }
+
+        function updateOrder(btn) {
+            var kg = btn.getAttribute('data-kg');
+            var price = parseInt(btn.getAttribute('data-price'), 10);
+
+            qtyOptions.querySelectorAll('.qty-btn').forEach(function (b) {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+
+            if (orderTotal) orderTotal.textContent = formatTL(price);
+
+            if (waOrder) {
+                var msg = 'Merhaba, ' + kg + ' kg ceviz (' + formatTL(price).replace(' ₺', ' TL') + ') siparişi vermek istiyorum.';
+                waOrder.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg);
+            }
+        }
+
+        qtyOptions.querySelectorAll('.qty-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () { updateOrder(btn); });
+        });
+        updateOrder(qtyOptions.querySelector('.qty-btn.active') || qtyOptions.querySelector('.qty-btn'));
+    }
+
+    /* ---- Hafif reveal (kütüphanesiz) ---- */
+    var revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && revealEls.length) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        revealEls.forEach(function (el) { io.observe(el); });
+    } else {
+        revealEls.forEach(function (el) { el.classList.add('in'); });
+    }
 })();

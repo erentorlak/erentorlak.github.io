@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TR Ceviz Bahçesi — Çanakkale Chandler Cevizi</title>
-    <meta name="description" content="Çanakkale Akçapınar'da Chandler cevizi bahçesi. 925 fidan, 50.699 m² alan. Taze ve doğal ceviz. Tel: 0533 519 52 22">
-    <meta property="og:title" content="TR Ceviz Bahçesi — Çanakkale">
-    <meta property="og:description" content="925 Chandler fidanı, 50.699 m². Aracısız, el emeği ceviz. Tel: 0533 519 52 22">
+    <meta name="description" content="Çanakkale Akçapınar'da 925 Chandler ağacıyla kurulu ceviz bahçesi. 2026 hasadı taze ceviz, 160 TL/kg. Sipariş: 0533 519 52 22">
+    <meta property="og:title" content="TR Ceviz Bahçesi — Çanakkale Chandler Cevizi">
+    <meta property="og:description" content="925 Chandler ağacı, 50.699 m². 2026 hasadı taze ceviz, 160 TL/kg. Doğrudan üreticiden.">
     <meta property="og:image" content="images/farm3.jpg">
     <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Fragment+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,9 +25,6 @@
                 <img class="brand-logo" src="images/logo.jpg" alt="TR Ceviz Bahçesi logosu">
                 <span class="brand-name">TR Ceviz Bahçesi<span class="brand-sub">Çanakkale · Akçapınar</span></span>
             </a>
-            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="siteNav">
-                <span></span><span></span><span></span>
-            </button>
             <nav class="site-nav" id="siteNav" aria-label="Ana menü">
                 <ul>
                     <li><a href="index.html" aria-current="page">Ana Sayfa</a></li>
@@ -36,151 +33,175 @@
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
             </nav>
+            <a class="header-tel" href="tel:+905335195222" aria-label="Telefon: 0533 519 52 22">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>0533 519 52 22</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="siteNav">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
     <main>
         <!-- Hero -->
         <section class="hero" id="top">
-            <img class="hero-bg" src="images/farm3.jpg" alt="Çanakkale'deki ceviz bahçesi manzarası" fetchpriority="high">
+            <img class="hero-img" src="images/farm3.jpg" alt="Çanakkale'deki ceviz bahçesi" fetchpriority="high">
             <div class="hero-overlay" aria-hidden="true"></div>
-            <img class="hero-engrave" src="images/walnut-engrave.svg" alt="" aria-hidden="true">
-
             <div class="container">
                 <div class="hero-content">
-                    <h1>Çanakkale'de <em>Chandler</em><br>Ceviz Bahçesi</h1>
-                    <p class="hero-sub">925 sertifikalı Chandler fidanı, 50.699 m² verimli toprak ve yılların emeği. Taze, doğal ve el değmeden özenle hazırlanmış cevizlerimizle tanışın.</p>
+                    <div class="hero-price">2026 hasadı · 160 ₺/kg <small>· doğrudan üreticiden</small></div>
+                    <h1>Çanakkale'de <em>Chandler</em> cevizi yetiştiriyoruz</h1>
+                    <p class="hero-sub">925 ağaç, 50.699 m². Kendi bahçemizde yetişir, kendi tesisimizde kurutulur, aracısız size ulaşır.</p>
                     <div class="hero-actions">
-                        <a href="ceviz-satis.html" class="btn btn-primary">Ceviz Satın Al</a>
-                        <a href="about.html" class="btn btn-ghost">Bahçeyi Keşfet</a>
+                        <a href="ceviz-satis.html" class="btn btn-amber">Ceviz Satın Al</a>
+                        <a href="about.html" class="btn btn-outline">Bahçeyi Gör</a>
                     </div>
-                    <p class="hero-micronote">Şimdi sezon — 2026 mahsulü hazır</p>
+                    <div class="hero-trust">
+                        <span>Mavi sertifikalı fidan</span>
+                        <span>2012'den beri aynı bahçe</span>
+                        <span>Aracısız satış</span>
+                    </div>
                 </div>
             </div>
-            <a class="hero-scroll" href="#ozet" aria-label="Aşağı kaydır">Keşfet</a>
         </section>
 
-        <!-- İstatistikler -->
-        <section class="stats-strip" id="ozet">
-            <div class="container" style="padding:0 0">
+        <!-- Güven şeridi -->
+        <div class="trust-strip">
+            <div class="container">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.42-3.13 8.4-7 9-3.87-.6-7-4.58-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+                    <span><strong>Kendi tesisimizde</strong> kurutulur ve boylanır</span>
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    <span><strong>Damlama sulama</strong> ile ölçülü yetiştirilir</span>
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span><strong>Çanakkale Akçapınar'dan</strong> sofraya</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- İstatistik bandı -->
+        <section class="stats-band">
+            <div class="container">
                 <div class="stats-grid">
-                    <div class="stat" data-label="Alan">
+                    <div class="stat reveal">
                         <span class="stat-num">50.699 m²</span>
                         <span class="stat-label">Bahçe alanı</span>
                     </div>
-                    <div class="stat" data-label="Fidan">
+                    <div class="stat reveal">
                         <span class="stat-num">925</span>
-                        <span class="stat-label">Sertifikalı Chandler</span>
+                        <span class="stat-label">Chandler ağacı</span>
                     </div>
-                    <div class="stat" data-label="Kuruluş">
+                    <div class="stat reveal">
                         <span class="stat-num">2012</span>
-                        <span class="stat-label">Bahçenin kuruluş yılı</span>
+                        <span class="stat-label">Kuruluş yılı</span>
                     </div>
-                    <div class="stat" data-label="Kuru mahsul">
-                        <span class="stat-num">18–20 t</span>
+                    <div class="stat reveal">
+                        <span class="stat-num">18–20 ton</span>
                         <span class="stat-label">Yıllık hasat</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Tanıtım -->
-        <section class="section manifesto">
+        <!-- Ürün sahnesi -->
+        <section class="section">
             <div class="container">
-                <p class="lead-big">Bir ceviz, <em>toprağın sabrı</em> ile <strong>emeğin özeninin</strong> buluşmasıdır. 2012'den beri Akçapınar'da, 925 ağacın her dalında bu düşünceyle çalışıyoruz.</p>
+                <div class="product-grid">
+                    <div class="product-media reveal">
+                        <span class="product-badge">2026 Hasadı</span>
+                        <img src="images/sat.jpg" alt="Taze Chandler cevizi" loading="lazy">
+                    </div>
+                    <div class="product-info reveal">
+                        <span class="label">Ürünümüz</span>
+                        <h2>Taze ve doğal ceviz</h2>
+                        <p class="product-desc">Chandler çeşidi iri taneli cevizlerimiz; hasat sonrası soyulur, 3 siloluk tesisimizde kurutulur, boş–dolu ayrımı yapılır ve özenle boylanır. Katkı yok, aracı yok.</p>
+                        <div class="price-row">
+                            <span class="price-now">160 ₺</span>
+                            <span class="price-unit">/ kg · KDV dahil · 2026 mahsulü</span>
+                        </div>
+                        <ul class="checks">
+                            <li><span class="check-ic">✓</span> Chandler çeşidi, iri ve dolgun taneli</li>
+                            <li><span class="check-ic">✓</span> Kendi tesisimizde kurutulur ve boylanır</li>
+                            <li><span class="check-ic">✓</span> Hasattan çuvala kadar izlenebilir</li>
+                        </ul>
+                        <a href="ceviz-satis.html" class="btn btn-primary">Sipariş Ver</a>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Değer önerileri -->
-        <section class="section">
+        <!-- Bahçe / köken -->
+        <section class="section section-sand">
             <div class="container">
-                <div class="section-head left">
-                    <h2>Bahçemiz ne sunuyor</h2>
-                    <p class="lead">Bir cevizin kalitesini pazarlıktan değil, kayıttan okursunuz. Elinizdeki her veri, bu bahçenin gerçeğidir.</p>
-                </div>
-                <div class="features-grid">
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4.97 0 9-4.03 9-9 0-4.97-4.03-9-9-9-4.97 0-9 4.03-9 9 0 4.97 4.03 9 9 9z"/><path d="M12 8v4M12 16h.01"/></svg>
-                        </div>
-                        <h3>Mavi Sertifikalı Chandler</h3>
-                        <p>Denizli Ekiz Fidancılık'tan 925 fidan. Çeşit kimliği ve sağlık durumu belgelenmiş.</p>
+                <div class="split">
+                    <div class="split-media reveal">
+                        <img src="images/farm1.jpg" alt="Ceviz bahçesinin genel görünümü" loading="lazy">
                     </div>
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                        </div>
-                        <h3>Ölçülü Sulama</h3>
-                        <p>Baraj suyu, 3 kademe filtre, her sırada 4 damlama. Sensörle günlük ölçüm.</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.42-3.13 8.4-7 9-3.87-.6-7-4.58-7-9V6z"/></svg>
-                        </div>
-                        <h3>Sahada Tam Kontrol</h3>
-                        <p>1050 m çit, 7 kamera, 32 kW güneş, 138 m sondaj. Bahçenin altyapısı güçlü.</p>
+                    <div class="split-body reveal">
+                        <span class="label">Bahçemiz</span>
+                        <h2>2012'den beri aynı toprakta</h2>
+                        <p>Bahçemiz Aralık 2012'de, Denizli'den getirilen <strong>925 mavi sertifikalı Chandler fidanı</strong> ile kuruldu. Çanakkale–İzmir duble yoluna 750 metre mesafede, iki tarafı yola açık bir parseide.</p>
+                        <p>Cevizlerimiz Akçapınar barajından gelen suyla, 3 kademe filtreli damlama sistemiyle sulanır; toprak nemi sensörlerle günlük ölçülür. Bahçenin tamamı güneş enerjisiyle çalışır.</p>
+                        <dl class="spec-list">
+                            <div class="spec-row"><dt>Konum</dt><dd>Akçapınar, Çanakkale</dd></div>
+                            <div class="spec-row"><dt>Ada / Parsel</dt><dd>159 / 38</dd></div>
+                            <div class="spec-row"><dt>Dikim aralığı</dt><dd>8 m × 6 m</dd></div>
+                            <div class="spec-row"><dt>Sulama</dt><dd>Damlama, sensör takipli</dd></div>
+                        </dl>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Süreç -->
-        <section class="section-tight">
+        <section class="section section-dark">
             <div class="container">
-                <div class="section-head left">
-                    <h2>Hasattan çuvallara</h2>
-                    <p class="lead">Her adımın ölçüsü var. Defterde yazmayan bir iş, bu bahçede yapılmamıştır.</p>
+                <div class="section-head">
+                    <span class="label label-light">Nasıl üretiyoruz</span>
+                    <h2>Hasattan çuvala, dört adım</h2>
                 </div>
                 <div class="process-grid">
-                    <div class="process-step">
-                        <span class="p-meta">1</span>
+                    <div class="process-step reveal">
+                        <span class="process-no">01</span>
                         <h3>Hasat</h3>
-                        <p>Eylül–Ekim'de olgunluğa ulaşan cevizler dalından toplanır.</p>
-                        <div class="p-data">Sezon: 18–20 t kuru</div>
+                        <p>Eylül–Ekim'de olgunlaşan cevizler dalından tek tek toplanır.</p>
                     </div>
-                    <div class="process-step">
-                        <span class="p-meta">2</span>
+                    <div class="process-step reveal">
+                        <span class="process-no">02</span>
                         <h3>Ayıklama</h3>
                         <p>Yeşil kabuk soyulur, boş–dolu ayırma makinesinden geçirilir.</p>
-                        <div class="p-data">3 kW fan ayrıştırma</div>
                     </div>
-                    <div class="process-step">
-                        <span class="p-meta">3</span>
+                    <div class="process-step reveal">
+                        <span class="process-no">03</span>
                         <h3>Kurutma</h3>
-                        <p>3 siloda, sıcak hava ile ideal neme kadar kurutulur.</p>
-                        <div class="p-data">4.500 kg kapasite</div>
+                        <p>3 siloda, 200.000 kcal sıcak hava ile ideal neme kadar kurutulur.</p>
                     </div>
-                    <div class="process-step">
-                        <span class="p-meta">4</span>
+                    <div class="process-step reveal">
+                        <span class="process-no">04</span>
                         <h3>Tasnif</h3>
-                        <p>Boylama, tartım ve çuvallama. Her çuval izlenebilir; aracısız.</p>
-                        <div class="p-data">160 ₺ / kg · 2026</div>
+                        <p>Boylanır, tartılır ve çuvallanır. Doğrudan üreticiden size gelir.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Ürün vitrini -->
-        <section class="product-showcase section">
+        <!-- Üretici alıntısı -->
+        <section class="section section-dark" style="padding-top:0">
             <div class="container">
-                <div class="product-grid">
-                    <div class="product-media">
-                        <span class="product-badge">2026 Hasadı</span>
-                        <img src="images/sat.jpg" alt="Taze soyulmuş ceviz ürünü" loading="lazy">
+                <hr class="hr-light" style="margin-bottom:clamp(48px,7vw,80px)">
+                <div class="quote-grid">
+                    <div class="quote-media reveal">
+                        <img src="images/mahmut.jpg" alt="Mahmut Torlak — TR Ceviz Bahçesi" loading="lazy">
                     </div>
-                    <div class="product-info">
-                        <h2>Taze ve Doğal Ceviz</h2>
-                        <p class="product-desc">Bahçemizde yetişen Chandler cevizleri, hasat sonrası özenle soyulur, kurutulur ve boylanır. Katkısız, doğal, her çuvalı takip edilebilir bir ürün.</p>
-                        <div class="price-row">
-                            <span class="price-now">1 kg — 160 ₺</span>
-                            <span class="price-unit">/ kg · 2026 mahsulü</span>
-                        </div>
-                        <ul class="checks">
-                            <li><span class="check-ic">✓</span> Chandler çeşidi, iri taneli</li>
-                            <li><span class="check-ic">✓</span> Damlama sulama, sensör takipli</li>
-                            <li><span class="check-ic">✓</span> Kendi tesisimizde kurutulup boylanmış</li>
-                        </ul>
-                        <a href="ceviz-satis.html" class="btn btn-amber">Ürünü İncele</a>
+                    <div class="reveal">
+                        <span class="quote-mark">"</span>
+                        <p class="quote-text">Bu bahçeyi 2012'de kurdum. Her ağacı kendim diktim, her hasadı kendim takip ederim. Sattığım ceviz, kendi soframa koyacağım cevizdir.</p>
+                        <span class="quote-cite">Mahmut Torlak — Bahçe Sahibi</span>
                     </div>
                 </div>
             </div>
@@ -189,55 +210,36 @@
         <!-- Galeri -->
         <section class="section">
             <div class="container">
-                <div class="section-head left">
-                    <h2>Bahçemizden görüntüler</h2>
+                <div class="section-head center">
+                    <span class="label">Bahçeden</span>
+                    <h2>Mevsimlerden kareler</h2>
                 </div>
                 <div class="gallery-grid" id="gallery">
-                    <div class="gallery-item" data-src="images/farm1.jpg">
-                        <div class="img-wrap"><img src="images/farm1.jpg" alt="Bahçe genel görünüm" loading="lazy"></div>
-                        <div class="gallery-cap">
-                            <span class="g-name">Genel görünüm</span>
-                        </div>
-                    </div>
-                    <div class="gallery-item tall" data-src="images/farm6_dik.jpg">
+                    <div class="gallery-item tall reveal" data-src="images/farm6_dik.jpg">
                         <div class="img-wrap"><img src="images/farm6_dik.jpg" alt="Ceviz ağaçları" loading="lazy"></div>
-                        <div class="gallery-cap">
-                            <span class="g-name">Sıra dokusu</span>
-                        </div>
+                        <span class="gallery-cap">İlkbahar · Ağaçlar</span>
                     </div>
-                    <div class="gallery-item" data-src="images/farm4.jpg">
+                    <div class="gallery-item reveal" data-src="images/farm4.jpg">
                         <div class="img-wrap"><img src="images/farm4.jpg" alt="Bahçe manzarası" loading="lazy"></div>
-                        <div class="gallery-cap">
-                            <span class="g-name">Manzara</span>
-                        </div>
+                        <span class="gallery-cap">Yaz · Bahçe</span>
                     </div>
-                    <div class="gallery-item" data-src="images/farm2.jpg">
-                        <div class="img-wrap"><img src="images/farm2.jpg" alt="Sulama ve toprak" loading="lazy"></div>
-                        <div class="gallery-cap">
-                            <span class="g-name">Toprak ve damlama</span>
-                        </div>
+                    <div class="gallery-item reveal" data-src="images/farm2.jpg">
+                        <div class="img-wrap"><img src="images/farm2.jpg" alt="Toprak ve damlama sulama" loading="lazy"></div>
+                        <span class="gallery-cap">Damlama sulama</span>
                     </div>
-                    <div class="gallery-item tall" data-src="images/farm7_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm7_dik.jpg" alt="Dikey bahçe görüntüsü" loading="lazy"></div>
-                        <div class="gallery-cap">
-                            <span class="g-name">Yakın doku</span>
-                        </div>
+                    <div class="gallery-item reveal" data-src="images/farm5.jpg">
+                        <div class="img-wrap"><img src="images/farm5.jpg" alt="Gün batımında bahçe" loading="lazy"></div>
+                        <span class="gallery-cap">Hasat öncesi</span>
                     </div>
-                    <div class="gallery-item" data-src="images/farm5.jpg">
-                        <div class="img-wrap"><img src="images/farm5.jpg" alt="Gün batımı bahçe" loading="lazy"></div>
-                        <div class="gallery-cap">
-                            <span class="g-name">Gün batımı</span>
-                        </div>
+                    <div class="gallery-item tall reveal" data-src="images/farm7_dik.jpg">
+                        <div class="img-wrap"><img src="images/farm7_dik.jpg" alt="Ceviz ağacı yakından" loading="lazy"></div>
+                        <span class="gallery-cap">Ağaç dokusu</span>
+                    </div>
+                    <div class="gallery-item reveal" data-src="images/farm8_dik.jpg">
+                        <div class="img-wrap"><img src="images/farm8_dik.jpg" alt="Bahçe sıraları" loading="lazy"></div>
+                        <span class="gallery-cap">Sıra arası</span>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Büyük alıntı -->
-        <section class="pullquote">
-            <div class="container">
-                <blockquote>Bu bahçe, toprağa verilen emeğin; her cevizin içinde sakladığı o dolgun tadın sabırla tutulmuş emeğidir.</blockquote>
-                <cite>— Mahmut Torlak · Bahçe Sahibi</cite>
             </div>
         </section>
 
@@ -246,10 +248,10 @@
             <div class="container">
                 <div class="cta-inner">
                     <div>
-                        <h2>Bahçeyi yerinde görmek ister misiniz?</h2>
-                        <p>Bilgi, sipariş ve hasat dönemi ziyareti için bize ulaşın.</p>
+                        <h2>2026 hasadını sipariş edin</h2>
+                        <p>Telefon veya WhatsApp ile doğrudan bahçeden. Hasat dönemi: Eylül–Ekim.</p>
                     </div>
-                    <a href="contact.html" class="btn btn-dark">İletişime Geç</a>
+                    <a href="ceviz-satis.html" class="btn btn-amber">Ceviz Satış Sayfası</a>
                 </div>
             </div>
         </section>
@@ -263,7 +265,7 @@
                         <img class="brand-logo" src="images/logo.jpg" alt="TR Ceviz Bahçesi logosu">
                         <span class="brand-name">TR Ceviz Bahçesi</span>
                     </a>
-                    <p>Çanakkale'nin Akçapınar köyünde, 2012'den beri sertifikalı Chandler cevizi bahçesi.</p>
+                    <p>Çanakkale Akçapınar'da 925 Chandler ağacıyla kurulu aile bahçesi. 2012'den beri kendi cevizini yetiştirir.</p>
                 </div>
                 <div>
                     <h4 class="footer-h">Sayfalar</h4>
@@ -279,8 +281,8 @@
                     <ul class="footer-contact">
                         <li>Mahmut Torlak</li>
                         <li><a href="tel:+905335195222">0533 519 52 22</a></li>
+                        <li><a href="https://wa.me/905335195222" target="_blank" rel="noopener">WhatsApp</a></li>
                         <li>Akçapınar · Çanakkale</li>
-                        <li>Ada/Parsel 159/38</li>
                     </ul>
                 </div>
             </div>
@@ -291,13 +293,13 @@
         </div>
     </footer>
 
-    <!-- Mobil telefon barı -->
+    <!-- Mobil sipariş barı -->
     <div class="mobile-telbar">
         <a href="tel:+905335195222">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Hemen Ara
         </a>
-        <a href="https://wa.me/905335195222" target="_blank" rel="noopener">
+        <a class="wa" href="https://wa.me/905335195222?text=Merhaba%2C%20ceviz%20sipari%C5%9Fi%20vermek%20istiyorum." target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             WhatsApp
         </a>
