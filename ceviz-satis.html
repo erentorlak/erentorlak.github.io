@@ -3,46 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ceviz Satış</title>
+    <title>Ceviz Satış — TR Ceviz Bahçesi | Çanakkale</title>
+    <meta name="description" content="Çanakkale Akçapınar TR Ceviz Bahçesi'nden taze, doğal Chandler cevizi. 160 TL/kg. Sipariş: Mahmut Torlak 0533 519 52 22">
+    <meta property="og:title" content="Ceviz Satış — TR Ceviz Bahçesi">
+    <meta property="og:image" content="images/sat.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
+
+    <header class="site-header" id="siteHeader">
         <div class="container">
-            <a href="index.html"><img src="images/logo.jpg" alt="Ceviz Bahçesi Logosu" class="logo"></a>            <nav>
+            <a class="brand" href="index.html">
+                <img class="brand-logo" src="images/logo.jpg" alt="TR Ceviz Bahçesi logosu">
+                <span class="brand-name">TR Ceviz Bahçesi<span class="brand-sub">Çanakkale</span></span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="siteNav">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="site-nav" id="siteNav" aria-label="Ana menü">
                 <ul>
                     <li><a href="index.html">Ana Sayfa</a></li>
-                    <li><a href="about.html">Hakkında</a></li>
-                    <li><a href="ceviz-satis.html">Ceviz Satış</a></li>
+                    <li><a href="about.html">Bahçemiz</a></li>
+                    <li><a href="ceviz-satis.html" aria-current="page">Ceviz Satış</a></li>
                     <li><a href="contact.html">İletişim</a></li>
                 </ul>
             </nav>
         </div>
     </header>
+
     <main>
-        <section class="container">
-            <h1>Ceviz Satış</h1>
-            <section class="products">
-                <div class="product">
-                    <img src="images/sat.jpg" alt="Ceviz Ürünü" class="responsive -img" style="width: 20%; height: 20%;"
-                    >
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow">Ceviz Satış</span>
+                <h1>Bu yılın hasadı, doğrudan bahçeden</h1>
+                <p>Kendi bahçemizde yetiştirdiğimiz Chandler cevizleri, kendi tesisimizde kurutulup boylanarak hazırlanır. Aracı yok, aracısız.</p>
+            </div>
+        </section>
 
+        <section class="section">
+            <div class="container">
+                <div class="shop-grid">
+                    <div class="shop-media reveal">
+                        <img src="images/sat.jpg" alt="Taze ceviz ürünü">
+                    </div>
+                    <div class="shop-info reveal">
+                        <span class="eyebrow">2026 Hasadı</span>
+                        <h1>Doğal Ceviz</h1>
+                        <p class="shop-desc">Hasat sonrası özenle soyulan, kendi 3 siloluk kurutma tesisimizde ısıtılmış hava ile kurutulan ve boş–dolu ayırma makinesinden geçirilen cevizlerimiz, boylanarak çuvallanır. Katkısız, doğal ve tamamen kendi emeğimiz.</p>
 
-                    <h3>Ceviz Ürünü</h3>
-                    <p>Lezzetli ve taze cevizlerimiz hakkında bilgi alın.</p>
-                    <p>Fiyat : 160 TL</p>
-                    <a href="contact.html" class="button">Satın Al</a>
+                        <div class="buy-row">
+                            <span class="price-now">160 TL</span>
+                            <span class="price-unit">/ kg</span>
+                            <a href="tel:+905335195222" class="btn btn-amber" style="margin-left:auto">Sipariş Ver</a>
+                        </div>
+
+                        <div class="note-card">
+                            <strong>Sipariş için:</strong> 0533 519 52 22 numaralı telefondan Mahmut Bey'e ulaşabilirsiniz. Stok ve kargo seçenekleri hakkında bilgi alabilirsiniz.
+                        </div>
+
+                        <div style="margin-top:28px">
+                            <h3 style="margin-bottom:12px">Ürün özellikleri</h3>
+                            <ul class="checks">
+                                <li><span class="check-ic">✓</span> Chandler çeşidi — iri taneli, içi dolu</li>
+                                <li><span class="check-ic">✓</span> Kendi bahçemizden, aracısız</li>
+                                <li><span class="check-ic">✓</span> Kapalı sistem damlama sulama ile yetiştirilmiş</li>
+                                <li><span class="check-ic">✓</span> Kendi tesisimizde kurutulup boylanmış</li>
+                                <li><span class="check-ic">✓</span> Boş ve dolu ceviz ayrımı yapılmış</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-
+        <section class="cta-band section-tight">
+            <div class="container">
+                <div class="cta-inner reveal">
+                    <div>
+                        <h2>Siparişiniz için bugün arayın</h2>
+                        <p>Hasat döneminde tazeliğini koruyan cevizlerimiz sınırlı. Detaylı bilgi için hemen ulaşın.</p>
+                    </div>
+                    <a href="tel:+905335195222" class="btn btn-dark">0533 519 52 22</a>
+                </div>
+            </div>
         </section>
     </main>
-    <footer>
+
+    <footer class="site-footer">
         <div class="container">
-            <p>&copy; trceviz - Mahmut Torlak - 0533 519 52 22 </p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a class="brand" href="index.html">
+                        <img class="brand-logo" src="images/logo.jpg" alt="TR Ceviz Bahçesi logosu">
+                        <span class="brand-name">TR Ceviz Bahçesi</span>
+                    </a>
+                    <p>Çanakkale'nin Akçapınar köyünde, doğayla iç içe kurulmuş sertifikalı Chandler cevizi bahçesi.</p>
+                </div>
+                <div>
+                    <h4 class="footer-h">Sayfalar</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="about.html">Bahçemiz</a></li>
+                        <li><a href="ceviz-satis.html">Ceviz Satış</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-h">İletişim</h4>
+                    <ul class="footer-contact">
+                        <li>Mahmut Torlak</li>
+                        <li><a href="tel:+905335195222">0533 519 52 22</a></li>
+                        <li>Akçapınar, Çanakkale</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 TR Ceviz Bahçesi · Mahmut Torlak</span>
+                <span>Hasat dönemi: Eylül — Ekim</span>
+            </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
