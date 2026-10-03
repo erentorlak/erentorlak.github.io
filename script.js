@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    if (window.console && console.info) console.info('TRC Ceviz — build v7 (white shell lining)');
+    if (window.console && console.info) console.info('TRC Ceviz — build v8 (clean scan, inner experiment reverted)');
 
     /* ---- Ortam kapıları ---- */
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -389,16 +389,12 @@
             var loader = new GLTFLoader();
             loader.load('models/walnut.glb', function (gltf) {
                 var root = gltf.scene;
-
-                /* Kabuk: tek yüz (FrontSide) + mesh listesi */
-                var meshList = [];
                 root.traverse(function (o) {
                     if (o.isMesh) {
-                        o.material.side = THREE.FrontSide;
+                        o.material.side = THREE.DoubleSide;
                         if (o.material.map) {
                             o.material.map.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
                         }
-                        meshList.push(o);
                     }
                 });
 
@@ -406,27 +402,6 @@
                 var box = new THREE.Box3().setFromObject(root);
                 var center = box.getCenter(new THREE.Vector3());
                 var size = box.getSize(new THREE.Vector3());
-
-                /* İç astar: kabuğun hafif küçültülmüş kopyası — krem/beyaz.
-                   Dıştan görünmez (kabuk örter); alttaki tarama açıklığından
-                   ya da içeriden bakınca cevizin içi beyaz görünür. */
-                var innerMat = new THREE.MeshStandardMaterial({
-                    color: 0xf6f0e2,
-                    roughness: 0.85,
-                    metalness: 0.0,
-                    side: THREE.DoubleSide,
-                    envMapIntensity: 0.75,
-                    emissive: 0x8a8577,
-                    emissiveIntensity: 0.5
-                });
-                meshList.forEach(function (m) {
-                    var lining = new THREE.Mesh(m.geometry, innerMat);
-                    lining.position.copy(m.position);
-                    lining.rotation.copy(m.rotation);
-                    lining.scale.copy(m.scale).multiplyScalar(0.90);
-                    (m.parent || root).add(lining);
-                });
-
                 var scale = 2.0 / Math.max(size.x, size.y, size.z);
 
                 wrapper = new THREE.Group();
