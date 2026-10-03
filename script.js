@@ -1,37 +1,20 @@
 /* ============================================================
-   TR Ceviz Bahçesi — etkileşim & animasyon katmanı
-   Strateji: progressive enhancement; her efekt opsiyonel,
-   cihaz/tercih kapılarından geçer, hata halinde site çalışır.
+   TR Ceviz Bahçesi — etkileşim katmanı
+   (header, menü, lightbox, sipariş, reveal) + 3D ceviz sahnesi
    ============================================================ */
 (function () {
     'use strict';
 
     /* ---- Ortam kapıları ---- */
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    var isTouch = window.matchMedia('(hover: none)').matches;
     var conn = navigator.connection || {};
     var saveData = !!conn.saveData;
     var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
                    (navigator.deviceMemory && navigator.deviceMemory <= 4);
-    var hasGSAP = typeof window.gsap !== 'undefined';
-    var hasScrollTrigger = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
-    var hasSplitText = hasGSAP && typeof window.SplitText !== 'undefined';
-    var hasLenis = typeof window.Lenis !== 'undefined';
 
-    if (hasGSAP && hasScrollTrigger) { try { gsap.registerPlugin(ScrollTrigger); } catch (e) {} }
-    if (hasGSAP && hasSplitText) { try { gsap.registerPlugin(SplitText); } catch (e) {} }
-
-    /* ---- Scroll kilidi (menü/lightbox/preloader ortak) ---- */
-    var lenis = null;
-    function lockScroll() {
-        document.body.style.overflow = 'hidden';
-        if (lenis) lenis.stop();
-    }
-    function unlockScroll() {
-        document.body.style.overflow = '';
-        if (lenis) lenis.start();
-    }
+    /* ---- Scroll kilidi ---- */
+    function lockScroll() { document.body.style.overflow = 'hidden'; }
+    function unlockScroll() { document.body.style.overflow = ''; }
 
     /* ---- Header scroll ---- */
     var header = document.getElementById('siteHeader');
@@ -167,99 +150,7 @@
         updateOrder(qtyOptions.querySelector('.qty-btn.active') || qtyOptions.querySelector('.qty-btn'));
     }
 
-    /* ============================================================
-       1) PRELOADER — index'te, oturumda bir kez
-       ============================================================ */
-    var preloaderEl = document.getElementById('preloader');
-    function runPreloader(done) {
-        if (!preloaderEl) { done(); return; }
-
-        var isFirstVisit = true;
-        try { isFirstVisit = !sessionStorage.getItem('trcvz-intro'); } catch (e) {}
-
-        if (reduceMotion || !isFirstVisit) {
-            preloaderEl.remove();
-            done();
-            return;
-        }
-
-        document.body.classList.add('is-loading');
-        lockScroll();
-
-        var countEl = document.getElementById('preloaderCount');
-        var start = performance.now();
-        var DUR = 850;
-
-        function tick(now) {
-            var p = Math.min(1, (now - start) / DUR);
-            var eased = 1 - Math.pow(1 - p, 3);
-            if (countEl) countEl.textContent = String(Math.round(eased * 100));
-            if (p < 1) {
-                requestAnimationFrame(tick);
-            } else {
-                try { sessionStorage.setItem('trcvz-intro', '1'); } catch (e) {}
-                preloaderEl.classList.add('done');
-                document.body.classList.remove('is-loading');
-                unlockScroll();
-                setTimeout(function () { preloaderEl.remove(); }, 950);
-                done();
-            }
-        }
-        requestAnimationFrame(tick);
-    }
-
-    /* ============================================================
-       2) LENIS + GSAP — smooth scroll & scroll hikâyesi
-       ============================================================ */
-    if (hasLenis && hasGSAP && hasScrollTrigger && !reduceMotion && !isTouch) {
-        lenis = new Lenis({ autoRaf: false, duration: 1.05, smoothWheel: true });
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0);
-    }
-
-    /* Split başlıklar */
-    function initSplits(playHero) {
-        var els = document.querySelectorAll('[data-split]');
-        if (!hasSplitText || !hasScrollTrigger || reduceMotion || !els.length) { playHero(); return; }
-
-        function init() {
-            var heroTween = null;
-            els.forEach(function (el) {
-                var isHero = !!el.closest('.hero');
-                try {
-                    var split = new SplitText(el, { type: 'lines', linesClass: 'split-line', aria: 'auto' });
-                    var tween = gsap.from(split.lines, {
-                        yPercent: 120,
-                        opacity: 0,
-                        duration: 1,
-                        ease: 'power3.out',
-                        stagger: 0.08,
-                        paused: true
-                    });
-                    if (isHero) {
-                        heroTween = tween;
-                    } else {
-                        ScrollTrigger.create({
-                            trigger: el,
-                            start: 'top 85%',
-                            once: true,
-                            onEnter: function () { tween.play(); }
-                        });
-                    }
-                } catch (e) {}
-            });
-            playHero(heroTween);
-        }
-
-        if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
-            document.fonts.ready.then(init);
-        } else {
-            init();
-        }
-    }
-
-    /* Hafif reveal (IntersectionObserver — GSAP'siz de çalışır) */
+    /* ---- Hafif reveal ---- */
     var revealEls = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window && revealEls.length) {
         if (reduceMotion) {
@@ -280,128 +171,8 @@
     }
 
     /* ============================================================
-       3) HERO PARTİKÜLLERİ — Canvas 2D (sıfır bağımlılık)
-       ============================================================ */
-    function initParticles() {
-        var canvas = document.getElementById('heroCanvas');
-        if (!canvas || reduceMotion || saveData) return;
-        var ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        var hero = canvas.parentElement;
-        var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
-        var w = 0, h = 0, running = true;
-        var COUNT = (window.innerWidth < 720 ? 28 : 55);
-        var parts = [];
-
-        function resize() {
-            w = hero.offsetWidth; h = hero.offsetHeight;
-            canvas.width = Math.round(w * DPR);
-            canvas.height = Math.round(h * DPR);
-            canvas.style.width = w + 'px';
-            canvas.style.height = h + 'px';
-            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        }
-
-        function spawn(initial) {
-            return {
-                x: Math.random() * w,
-                y: initial ? Math.random() * h : h + 10,
-                r: 0.8 + Math.random() * 2,
-                vy: -0.15 - Math.random() * 0.35,
-                vx: (Math.random() - 0.5) * 0.15,
-                a: 0.06 + Math.random() * 0.22,
-                sw: Math.random() * Math.PI * 2,
-                sa: 0.2 + Math.random() * 0.5
-            };
-        }
-
-        function seed() {
-            parts = [];
-            for (var i = 0; i < COUNT; i++) parts.push(spawn(true));
-        }
-
-        var t = 0;
-        function frame() {
-            if (running) {
-                t++;
-                ctx.clearRect(0, 0, w, h);
-                for (var i = 0; i < parts.length; i++) {
-                    var p = parts[i];
-                    p.y += p.vy;
-                    p.x += p.vx + Math.sin(t * 0.01 * p.sa + p.sw) * 0.18;
-                    if (p.y < -12 || p.x < -14 || p.x > w + 14) parts[i] = spawn(false);
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, 6.2832);
-                    ctx.fillStyle = 'rgba(247, 243, 239, ' + p.a.toFixed(3) + ')';
-                    ctx.fill();
-                }
-            }
-            requestAnimationFrame(frame);
-        }
-
-        resize();
-        seed();
-        frame();
-
-        window.addEventListener('resize', function () { resize(); seed(); }, { passive: true });
-
-        if ('IntersectionObserver' in window) {
-            new IntersectionObserver(function (entries) {
-                running = entries[0].isIntersecting;
-            }, { threshold: 0 }).observe(hero);
-        }
-        document.addEventListener('visibilitychange', function () {
-            running = !document.hidden;
-        });
-    }
-
-    /* ============================================================
-       4) CUSTOM CURSOR — yalnız hassas işaretçi (desktop)
-       ============================================================ */
-    function initCursor() {
-        if (!isFinePointer || isTouch || reduceMotion) return;
-
-        var dot = document.createElement('div');
-        dot.className = 'cursor-dot';
-        dot.setAttribute('aria-hidden', 'true');
-        var ring = document.createElement('div');
-        ring.className = 'cursor-ring';
-        ring.setAttribute('aria-hidden', 'true');
-        ring.innerHTML = '<span></span>';
-        document.body.appendChild(dot);
-        document.body.appendChild(ring);
-        document.documentElement.classList.add('has-cursor');
-
-        var mx = -100, my = -100, rx = -100, ry = -100;
-        var shown = false;
-
-        window.addEventListener('mousemove', function (e) {
-            mx = e.clientX; my = e.clientY;
-            if (!shown) { shown = true; rx = mx; ry = my; dot.style.opacity = '1'; ring.style.opacity = '1'; }
-            var interactive = e.target && e.target.closest && e.target.closest('a, button, .gallery-item, .qty-btn, input, [role="button"]');
-            ring.classList.toggle('is-hover', !!interactive);
-        }, { passive: true });
-
-        function loop() {
-            rx += (mx - rx) * 0.16;
-            ry += (my - ry) * 0.16;
-            dot.style.transform = 'translate(' + (mx - 3) + 'px, ' + (my - 3) + 'px)';
-            ring.style.transform = 'translate(' + (rx - 18) + 'px, ' + (ry - 18) + 'px)';
-            requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
-
-        document.addEventListener('mouseleave', function () {
-            dot.style.opacity = '0'; ring.style.opacity = '0'; shown = false;
-        });
-        document.addEventListener('mouseenter', function () {
-            if (shown) { dot.style.opacity = '1'; ring.style.opacity = '1'; }
-        });
-    }
-
-    /* ============================================================
-       5) 3D CEVİZ — three.js (lazy, kapılı)
+       3D CEVİZ — three.js, yalnız bu site'ın imza anı
+       İki kabuk yarısı + beyin kıvrımlı iç, aç/kapa, sürükle-döndür
        ============================================================ */
     function webglOK() {
         try {
@@ -412,6 +183,10 @@
 
     function initWalnut() {
         var stage = document.getElementById('walnutStage');
+        var view = stage ? stage.closest('.walnut-view') : null;
+        var toggleBtn = document.getElementById('walnutToggle');
+        var toggleLabel = document.getElementById('walnutToggleLabel');
+        var hint = document.getElementById('walnutHint');
         if (!stage || reduceMotion || saveData || lowPower || !webglOK()) return;
 
         var started = false;
@@ -421,220 +196,371 @@
                 io.disconnect();
                 import('https://cdn.jsdelivr.net/npm/three@0.185.0/+esm')
                     .then(build)
-                    .catch(function () { /* fallback img kalır */ });
+                    .catch(function () { /* fallback görsel kalır */ });
             }
-        }, { rootMargin: '350px' });
+        }, { rootMargin: '400px' });
         io.observe(stage);
 
         function build(THREE) {
-            var w = stage.clientWidth || 400, h = stage.clientHeight || 400;
+            var w = stage.clientWidth || 460;
+            var h = stage.clientHeight || 460;
 
+            /* ---------- Renderer ---------- */
             var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
             renderer.setSize(w, h);
             renderer.domElement.className = 'walnut-canvas';
+            if (THREE.ACESFilmicToneMapping !== undefined) {
+                renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                renderer.toneMappingExposure = 1.08;
+            }
+            if (THREE.SRGBColorSpace !== undefined) renderer.outputColorSpace = THREE.SRGBColorSpace;
             stage.appendChild(renderer.domElement);
 
             var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 100);
-            camera.position.set(0, 0, 3.35);
+            var camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
+            camera.position.set(0, 0.42, 3.7);
+            camera.lookAt(0, 0, 0);
 
-            /* Prosedürel ceviz geometrisi: küre + kabuk kırışıklığı + orta çizgi */
-            var geo = new THREE.SphereGeometry(1, 128, 96);
-            var pos = geo.attributes.position;
-            var v = new THREE.Vector3();
-            for (var i = 0; i < pos.count; i++) {
-                v.fromBufferAttribute(pos, i);
-                var x = v.x, y = v.y, z = v.z;
-                var r = 1;
-                r += 0.045 * Math.sin(x * 3.0 + y * 2.0) * Math.cos(y * 3.2 + z * 1.6) * Math.sin(z * 3.6 + x * 2.4);
-                r += 0.02 * Math.sin(x * 9.0 + y * 7.0) * Math.cos(z * 8.0);
-                r -= 0.075 * Math.exp(-Math.pow(x / 0.10, 2));   /* dikiş oluğu */
-                r -= 0.12 * Math.pow(Math.max(0, -y), 1.6);      /* sivri dip */
-                v.normalize().multiplyScalar(r);
-                v.y *= 1.14; v.x *= 0.98; v.z *= 0.98;
-                pos.setXYZ(i, v.x, v.y, v.z);
-            }
-            geo.computeVertexNormals();
+            /* ---------- Stüdyo ortamı (PMREM) ---------- */
+            try {
+                var envCanvas = document.createElement('canvas');
+                envCanvas.width = 128; envCanvas.height = 64;
+                var ectx = envCanvas.getContext('2d');
+                var eg = ectx.createLinearGradient(0, 0, 0, 64);
+                eg.addColorStop(0, '#fdf4e3');
+                eg.addColorStop(0.45, '#93a37e');
+                eg.addColorStop(1, '#1b2215');
+                ectx.fillStyle = eg;
+                ectx.fillRect(0, 0, 128, 64);
+                ectx.fillStyle = 'rgba(255,255,255,0.95)';
+                ectx.beginPath(); ectx.ellipse(38, 12, 22, 9, 0, 0, Math.PI * 2); ectx.fill();
+                ectx.fillStyle = 'rgba(255,236,200,0.55)';
+                ectx.beginPath(); ectx.ellipse(100, 20, 14, 6, 0, 0, Math.PI * 2); ectx.fill();
+                var envTex = new THREE.CanvasTexture(envCanvas);
+                envTex.mapping = THREE.EquirectangularReflectionMapping;
+                if (THREE.SRGBColorSpace !== undefined) envTex.colorSpace = THREE.SRGBColorSpace;
+                var pmrem = new THREE.PMREMGenerator(renderer);
+                scene.environment = pmrem.fromEquirectangular(envTex).texture;
+                pmrem.dispose();
+                envTex.dispose();
+            } catch (e) {}
 
-            /* Prosedürel bump dokusu */
-            var bc = document.createElement('canvas');
-            bc.width = bc.height = 256;
-            var bctx = bc.getContext('2d');
-            bctx.fillStyle = '#808080';
-            bctx.fillRect(0, 0, 256, 256);
-            for (var pass = 0; pass < 3; pass++) {
-                var size = 1 << (pass + 1);
-                for (var k = 0; k < 1600; k++) {
-                    var g = 128 + (Math.random() * 2 - 1) * (42 >> pass);
-                    bctx.fillStyle = 'rgba(' + (g | 0) + ',' + (g | 0) + ',' + (g | 0) + ',0.5)';
-                    bctx.fillRect(Math.random() * 256, Math.random() * 256, size, size);
-                }
-            }
-            var bump = new THREE.CanvasTexture(bc);
-            bump.wrapS = bump.wrapT = THREE.RepeatWrapping;
-            bump.repeat.set(3, 3);
+            /* ---------- Işıklar ---------- */
+            scene.add(new THREE.HemisphereLight(0xfff4e0, 0x1d2517, 0.5));
 
-            var mat = new THREE.MeshStandardMaterial({
-                color: 0x8a6a47,
-                roughness: 0.82,
-                metalness: 0.06,
-                bumpMap: bump,
-                bumpScale: 0.02
-            });
-            var mesh = new THREE.Mesh(geo, mat);
-            scene.add(mesh);
-
-            scene.add(new THREE.HemisphereLight(0xfff4e0, 0x1e2a18, 0.9));
-            var key = new THREE.DirectionalLight(0xffe9c8, 2.4);
-            key.position.set(3, 4, 3);
+            var key = new THREE.DirectionalLight(0xffe8c8, 2.3);
+            key.position.set(3.2, 4.2, 3.4);
             scene.add(key);
-            var rim = new THREE.DirectionalLight(0x9fc4ff, 1.0);
-            rim.position.set(-4, -1, -3);
+
+            var rim = new THREE.DirectionalLight(0xa9c8ff, 1.6);
+            rim.position.set(-4.0, 1.6, -3.2);
             scene.add(rim);
-            var fill = new THREE.DirectionalLight(0xfff0d0, 0.5);
-            fill.position.set(-2, 3, 2);
+
+            var fill = new THREE.DirectionalLight(0xffd9a0, 0.55);
+            fill.position.set(-2.4, -1.6, 2.6);
             scene.add(fill);
 
-            /* Etkileşim: otomatik dönüş + sürükleme */
-            var targetRY = 0.4, targetRX = -0.1;
-            var curRY = targetRY, curRX = targetRX;
-            var dragging = false, lastX = 0, lastY = 0, userTouched = false;
+            /* ---------- Prosedürel dokular ---------- */
+            function rgba(r, g, b, a) { return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'; }
+
+            function paintOrganic(size, base, dark, light, streaks, speckles) {
+                var c = document.createElement('canvas');
+                c.width = c.height = size;
+                var ctx = c.getContext('2d');
+                ctx.fillStyle = base;
+                ctx.fillRect(0, 0, size, size);
+
+                for (var i = 0; i < 240; i++) {
+                    var x = Math.random() * size, y = Math.random() * size;
+                    var r = 10 + Math.random() * 76;
+                    var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+                    var col = Math.random() < 0.5 ? dark : light;
+                    g.addColorStop(0, rgba(col[0], col[1], col[2], 0.04 + Math.random() * 0.1));
+                    g.addColorStop(1, rgba(col[0], col[1], col[2], 0));
+                    ctx.fillStyle = g;
+                    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+                }
+
+                for (var s = 0; s < streaks; s++) {
+                    var sx = Math.random() * size, sy = Math.random() * size;
+                    var len = 26 + Math.random() * 130;
+                    var wid = 0.8 + Math.random() * 2.6;
+                    ctx.save();
+                    ctx.translate(sx, sy);
+                    ctx.rotate((Math.random() - 0.5) * 0.55);
+                    ctx.fillStyle = rgba(dark[0], dark[1], dark[2], 0.03 + Math.random() * 0.08);
+                    ctx.fillRect(-wid / 2, -len / 2, wid, len);
+                    ctx.restore();
+                }
+
+                for (var k = 0; k < speckles; k++) {
+                    var px = Math.random() * size, py = Math.random() * size;
+                    var t = Math.random() < 0.5 ? dark : light;
+                    ctx.fillStyle = rgba(t[0], t[1], t[2], 0.07 + Math.random() * 0.07);
+                    ctx.fillRect(px, py, 1 + Math.random() * 1.6, 1 + Math.random() * 1.6);
+                }
+                return c;
+            }
+
+            /* Kabuk dokusu: kahve tonları, mottling + çizikler */
+            var shellCanvas = paintOrganic(512, '#8a6a47', [58, 38, 18], [178, 142, 96], 150, 2400);
+            /* İç (çekirdek) dokusu: açık tan, kıvrım fırçaları */
+            var kernelCanvas = paintOrganic(512, '#c9a86e', [140, 102, 56], [232, 204, 152], 380, 3000);
+
+            function makeTex(canvas, repeat) {
+                var t = new THREE.CanvasTexture(canvas);
+                t.wrapS = t.wrapT = THREE.RepeatWrapping;
+                if (repeat) t.repeat.set(repeat, repeat);
+                if (THREE.SRGBColorSpace !== undefined) t.colorSpace = THREE.SRGBColorSpace;
+                return t;
+            }
+
+            var shellTex = makeTex(shellCanvas, 2.2);
+            var kernelTex = makeTex(kernelCanvas, 2.0);
+
+            /* ---------- Geometri deformasyonu ---------- */
+            function shellDeform(geo) {
+                var pos = geo.attributes.position;
+                var v = new THREE.Vector3();
+                for (var i = 0; i < pos.count; i++) {
+                    v.fromBufferAttribute(pos, i);
+                    var n = v.clone().normalize();
+                    var x = n.x, y = n.y, az = Math.abs(n.z);
+                    var r = 1;
+
+                    /* kırışıklıklar — dikey uzatılmış */
+                    r += 0.030 * (Math.sin(x * 3.1 + Math.sin(y * 2.3) * 1.7) * Math.cos(y * 2.7 + az * 2.2) * Math.sin(az * 3.4 + x * 1.9));
+                    r += 0.014 * (Math.sin(x * 8.7 + 1.1) * Math.cos(y * 6.4 + 2.2) * Math.sin(az * 7.9));
+                    r += 0.006 * (Math.sin(x * 17.3 + 0.4) * Math.cos(y * 15.1) * Math.sin(az * 16.7 + 1.3));
+
+                    /* dikiş çıkıntısı (z≈0 düzleminde) */
+                    r += 0.022 * Math.exp(-Math.pow(az / 0.14, 2));
+
+                    /* dip noktası (konik) */
+                    if (y < -0.42) {
+                        var t = (-y - 0.42) / 0.58;
+                        var narrow = 1 - 0.55 * t * t;
+                        x *= narrow; az *= narrow;
+                    }
+                    /* tepe hafif basıklık */
+                    if (y > 0.72) {
+                        var s = (y - 0.72) / 0.28;
+                        r -= 0.05 * s * s;
+                    }
+
+                    v.set(x, y, n.z < 0 ? -az : az).normalize().multiplyScalar(r);
+                    /* genel oran: hafif dikey uzun */
+                    v.x *= 0.94; v.y *= 1.14; v.z *= 0.94;
+                    pos.setXYZ(i, v.x, v.y, v.z);
+                }
+                geo.computeVertexNormals();
+                return geo;
+            }
+
+            function kernelDeform(geo) {
+                var pos = geo.attributes.position;
+                var v = new THREE.Vector3();
+                for (var i = 0; i < pos.count; i++) {
+                    v.fromBufferAttribute(pos, i);
+                    var n = v.clone().normalize();
+                    var x = n.x, y = n.y, az = Math.abs(n.z);
+                    var r = 1;
+
+                    /* beyin kıvrımları — sık ve derin */
+                    r += 0.028 * (Math.sin(x * 9.3 + Math.sin(y * 7.1) * 1.4) * Math.cos(y * 8.2 + az * 6.6) * Math.sin(az * 9.8 + x * 5.7));
+                    r += 0.012 * (Math.sin(x * 19.1) * Math.cos(y * 17.6 + 1.2) * Math.sin(az * 18.4 + 2.1));
+                    r += 0.005 * (Math.sin(x * 33.7 + 0.7) * Math.cos(y * 31.3) * Math.sin(az * 32.9));
+
+                    /* orta yarık (dikiş düzlemi) */
+                    r -= 0.20 * Math.exp(-Math.pow(az / 0.16, 2));
+
+                    v.set(x, y, n.z < 0 ? -az : az).normalize().multiplyScalar(r);
+                    pos.setXYZ(i, v.x, v.y, v.z);
+                }
+                geo.computeVertexNormals();
+                return geo;
+            }
+
+            /* ---------- Mesh'ler ---------- */
+            var shellMat = new THREE.MeshStandardMaterial({
+                map: shellTex,
+                bumpMap: shellTex,
+                bumpScale: 0.55,
+                color: 0xffffff,
+                roughness: 0.58,
+                metalness: 0.03,
+                side: THREE.DoubleSide,
+                envMapIntensity: 0.9
+            });
+
+            var kernelMat = new THREE.MeshStandardMaterial({
+                map: kernelTex,
+                bumpMap: kernelTex,
+                bumpScale: 0.5,
+                color: 0xffffff,
+                roughness: 0.7,
+                metalness: 0.0,
+                envMapIntensity: 0.6
+            });
+
+            var shellGeoFront = shellDeform(new THREE.SphereGeometry(1, 96, 64, 0, Math.PI));
+            var shellGeoBack = shellDeform(new THREE.SphereGeometry(1, 96, 64, Math.PI, Math.PI));
+            var kernelGeo = kernelDeform(new THREE.SphereGeometry(0.78, 80, 56));
+
+            var walnut = new THREE.Group();
+
+            var shellFront = new THREE.Mesh(shellGeoFront, shellMat);
+            var shellBack = new THREE.Mesh(shellGeoBack, shellMat);
+            var kernel = new THREE.Mesh(kernelGeo, kernelMat);
+            kernel.scale.set(0.86, 1.0, 0.62);
+
+            walnut.add(shellFront);
+            walnut.add(shellBack);
+            walnut.add(kernel);
+
+            var holder = new THREE.Group();   /* sürükleme döndürmesi */
+            holder.add(walnut);
+            scene.add(holder);
+
+            /* Temas gölgesi — derinlik hissi */
+            var shadowCanvas = document.createElement('canvas');
+            shadowCanvas.width = shadowCanvas.height = 128;
+            var sctx = shadowCanvas.getContext('2d');
+            var sgrad = sctx.createRadialGradient(64, 64, 8, 64, 64, 62);
+            sgrad.addColorStop(0, 'rgba(0,0,0,0.5)');
+            sgrad.addColorStop(0.65, 'rgba(0,0,0,0.14)');
+            sgrad.addColorStop(1, 'rgba(0,0,0,0)');
+            sctx.fillStyle = sgrad;
+            sctx.fillRect(0, 0, 128, 128);
+            var shadowTex = new THREE.CanvasTexture(shadowCanvas);
+            var shadowMesh = new THREE.Mesh(
+                new THREE.PlaneGeometry(2.7, 2.7),
+                new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0.85 })
+            );
+            shadowMesh.rotation.x = -Math.PI / 2;
+            shadowMesh.position.y = -1.34;
+            scene.add(shadowMesh);
+
+            /* ---------- Etkileşim ---------- */
+            var open = false;
+            var openT = 0;              /* animasyon değeri 0..1 */
+            var yawVel = 0;             /* atalet */
+            var pitch = 0.08, pitchTarget = 0.08;
+            var dragging = false;
+            var downX = 0, downY = 0, downT = 0, moved = 0;
+
+            function setOpen(next) {
+                open = next;
+                if (toggleLabel) toggleLabel.textContent = open ? 'Kabuğu Kapat' : 'Kabuğu Aç';
+                if (toggleBtn) toggleBtn.setAttribute('aria-pressed', open ? 'true' : 'false');
+                if (hint) hint.textContent = open ? 'Kapatmak için dokunun' : 'Sürükleyin · dokununca açılır';
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () { setOpen(!open); });
+            }
 
             stage.addEventListener('pointerdown', function (e) {
-                dragging = true; userTouched = true;
-                lastX = e.clientX; lastY = e.clientY;
+                dragging = true;
+                moved = 0;
+                downX = e.clientX; downY = e.clientY;
+                downT = performance.now();
+                stage.classList.add('dragging');
                 try { stage.setPointerCapture(e.pointerId); } catch (err) {}
             });
             window.addEventListener('pointermove', function (e) {
                 if (!dragging) return;
-                targetRY += (e.clientX - lastX) * 0.008;
-                targetRX += (e.clientY - lastY) * 0.006;
-                targetRX = Math.max(-1.1, Math.min(1.1, targetRX));
-                lastX = e.clientX; lastY = e.clientY;
+                var dx = e.clientX - downX;
+                var dy = e.clientY - downY;
+                moved += Math.abs(dx) + Math.abs(dy);
+                downX = e.clientX; downY = e.clientY;
+                yawVel += dx * 0.0022;
+                pitchTarget = Math.max(-0.55, Math.min(0.7, pitchTarget + dy * 0.0016));
             });
-            window.addEventListener('pointerup', function () { dragging = false; });
+            window.addEventListener('pointerup', function () {
+                if (!dragging) return;
+                dragging = false;
+                stage.classList.remove('dragging');
+                if (moved < 8 && performance.now() - downT < 450) {
+                    setOpen(!open);
+                }
+            });
 
+            /* ---------- Render döngüsü ---------- */
             var visible = true;
             new IntersectionObserver(function (entries) {
                 visible = entries[0].isIntersecting;
             }, { threshold: 0 }).observe(stage);
 
-            function loop() {
+            var last = 0;
+            /* adaptif kalite izleme */
+            var perfStart = 0, perfFrames = 0, perfDone = false;
+
+            function loop(t) {
                 requestAnimationFrame(loop);
                 if (!visible || document.hidden) return;
-                if (!dragging && !userTouched) targetRY += 0.004;
-                curRY += (targetRY - curRY) * 0.08;
-                curRX += (targetRX - curRX) * 0.08;
-                mesh.rotation.y = curRY;
-                mesh.rotation.x = curRX;
+                if (!last) last = t;
+                var dt = Math.min((t - last) / 1000, 0.05);
+                last = t;
+
+                /* düşük FPS tespiti → kaliteyi düşür (yalnız bir kez) */
+                if (!perfDone) {
+                    if (!perfStart) { perfStart = t; perfFrames = 0; }
+                    perfFrames++;
+                    if (t - perfStart > 2600) {
+                        var avgFps = perfFrames / ((t - perfStart) / 1000);
+                        if (avgFps < 34) {
+                            renderer.setPixelRatio(1);
+                        }
+                        perfDone = true;
+                    }
+                }
+
+                /* aç/kapa yumuşak geçiş */
+                var target = open ? 1 : 0;
+                openT += (target - openT) * Math.min(1, dt * 5);
+                var e = openT * openT * (3 - 2 * openT);   /* smoothstep */
+
+                /* kabuk yarıları */
+                shellFront.position.z = e * 0.92;
+                shellFront.rotation.x = -e * 0.42;
+                shellBack.position.z = -e * 0.92;
+                shellBack.rotation.x = e * 0.42;
+
+                /* iç: açılırken hafif büyü ve dön */
+                kernel.scale.set(0.86 + e * 0.06, 1.0 + e * 0.04, 0.62 + e * 0.05);
+                kernel.rotation.y += (1 - e) * 0.0 + dt * 0.12;
+
+                /* sürükleme ataleti + taban dönüş */
+                holder.rotation.y += yawVel + dt * 0.22 * (1 - e * 0.45);
+                yawVel *= 0.94;
+                pitch += (pitchTarget - pitch) * Math.min(1, dt * 6);
+                holder.rotation.x = pitch;
+
+                /* hafif süzülme */
+                walnut.position.y = Math.sin(t * 0.0009) * 0.045;
+                walnut.rotation.z = Math.sin(t * 0.0006) * 0.02;
+
                 renderer.render(scene, camera);
             }
             requestAnimationFrame(loop);
 
-            window.addEventListener('resize', function () {
+            /* ---------- Yeniden boyutlandırma ---------- */
+            function resize() {
                 w = stage.clientWidth; h = stage.clientHeight;
                 camera.aspect = w / h;
                 camera.updateProjectionMatrix();
                 renderer.setSize(w, h);
-            }, { passive: true });
-
-            stage.classList.add('ready');
-        }
-    }
-
-    /* ============================================================
-       6) SHADER ZEMİN — OGL (lazy, kapılı)
-       ============================================================ */
-    function initShaderBg() {
-        var host = document.getElementById('shaderBg');
-        if (!host || reduceMotion || saveData || lowPower || !webglOK()) return;
-
-        var started = false;
-        var io = new IntersectionObserver(function (entries) {
-            if (entries[0].isIntersecting && !started) {
-                started = true;
-                io.disconnect();
-                import('https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm')
-                    .then(build)
-                    .catch(function () {});
             }
-        }, { rootMargin: '250px' });
-        io.observe(host);
-
-        function build(OGL) {
-            var renderer = new OGL.Renderer({
-                alpha: true,
-                antialias: false,
-                dpr: Math.min(window.devicePixelRatio || 1, 1.25) * 0.6
-            });
-            var gl = renderer.gl;
-            host.appendChild(gl.canvas);
-
-            var geometry = new OGL.Triangle(gl);
-            var program = new OGL.Program(gl, {
-                vertex: 'attribute vec2 position; attribute vec2 uv; varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position, 0, 1); }',
-                fragment: [
-                    'precision highp float;',
-                    'varying vec2 vUv;',
-                    'uniform float uTime;',
-                    'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }',
-                    'float noise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);',
-                    ' float a=hash(i), b=hash(i+vec2(1.,0.)), c=hash(i+vec2(0.,1.)), d=hash(i+vec2(1.,1.));',
-                    ' return mix(mix(a,b,f.x), mix(c,d,f.x), f.y); }',
-                    'float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p*=2.05; a*=0.5; } return v; }',
-                    'void main(){',
-                    ' vec2 p = vUv * vec2(3.0, 2.2);',
-                    ' float t = uTime * 0.045;',
-                    ' float n = fbm(p + vec2(t, -t*0.7));',
-                    ' float n2 = fbm(p * 1.8 - vec2(t*0.6, t*0.4));',
-                    ' vec3 c1 = vec3(0.14, 0.19, 0.12);',
-                    ' vec3 c2 = vec3(0.22, 0.29, 0.19);',
-                    ' vec3 c3 = vec3(0.97, 0.78, 0.01);',
-                    ' vec3 col = mix(c1, c2, smoothstep(0.2, 0.8, n));',
-                    ' col = mix(col, c3, smoothstep(0.72, 1.0, n2) * 0.12);',
-                    ' gl_FragColor = vec4(col, 1.0);',
-                    '}'
-                ].join('\n'),
-                uniforms: { uTime: { value: 0 } }
-            });
-            var mesh = new OGL.Mesh(gl, { geometry: geometry, program: program });
-
-            var visible = true;
-            new IntersectionObserver(function (entries) {
-                visible = entries[0].isIntersecting;
-            }, { threshold: 0 }).observe(host);
-
-            var last = 0;
-            function loop(t) {
-                requestAnimationFrame(loop);
-                if (!visible || document.hidden) return;
-                if (t - last < 33) return; /* ~30fps sınırı */
-                last = t;
-                program.uniforms.uTime.value = t * 0.001;
-                renderer.render({ scene: mesh });
-            }
-            requestAnimationFrame(loop);
-
-            function resize() {
-                renderer.setSize(host.clientWidth, host.clientHeight);
-            }
-            resize();
             window.addEventListener('resize', resize, { passive: true });
+
+            /* ---------- Hazır ---------- */
+            stage.classList.add('ready');
+            if (view) view.classList.add('ready');
+            if (hint) hint.textContent = 'Sürükleyin · dokununca açılır';
         }
     }
 
-    /* ============================================================
-       BOOT
-       ============================================================ */
-    initParticles();
-    initCursor();
     initWalnut();
-    initShaderBg();
-
-    runPreloader(function () {
-        initSplits(function (heroTween) {
-            if (heroTween) heroTween.play();
-        });
-    });
 })();

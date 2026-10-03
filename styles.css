@@ -801,75 +801,6 @@ p { max-width: 68ch; }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 
-/* ============ Preloader ============ */
-.preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 4000;
-  background: var(--forest-d);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.preloader-inner { text-align: center; color: var(--cream); }
-.preloader-count {
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 10vw, 6rem);
-  line-height: 1;
-  display: block;
-}
-.preloader-brand {
-  display: block;
-  margin-top: 16px;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: rgba(247, 243, 239, .55);
-}
-.preloader.done { transform: translateY(-100%); transition: transform .9s cubic-bezier(.76, 0, .24, 1); }
-body.is-loading { overflow: hidden; }
-
-/* ============ Split satır maskeleri ============ */
-.split-line { display: block; overflow: hidden; }
-
-/* ============ Hero partikülleri ============ */
-.hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ============ Custom cursor (yalnız hassas işaretçi) ============ */
-html.has-cursor * { cursor: none !important; }
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 5000;
-  opacity: 0;
-  transition: opacity .3s ease;
-  mix-blend-mode: difference;
-}
-.cursor-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #fff;
-}
-.cursor-ring { width: 36px; height: 36px; }
-.cursor-ring span {
-  display: block;
-  width: 100%; height: 100%;
-  border: 1px solid rgba(255, 255, 255, .7);
-  border-radius: 50%;
-  transition: transform .25s ease, border-color .25s ease;
-}
-.cursor-ring.is-hover span { transform: scale(1.55); }
-
 /* ============ 3D ceviz sahnesi ============ */
 .walnut-grid {
   display: grid;
@@ -880,17 +811,25 @@ html.has-cursor * { cursor: none !important; }
 .walnut-grid > * { min-width: 0; }
 .walnut-copy p { color: var(--ink-70); margin-bottom: 14px; }
 .walnut-copy p strong { color: var(--ink); }
+.walnut-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
 .walnut-stage {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
   max-width: 520px;
-  margin-left: auto;
   border-radius: 50%;
   overflow: hidden;
-  background: radial-gradient(120% 120% at 30% 18%, #35482f 0%, #24301d 55%, #161f0f 100%);
-  box-shadow: 0 34px 80px rgba(45, 36, 15, .28);
+  background: radial-gradient(120% 120% at 30% 18%, #3a4d37 0%, #26311f 52%, #131a0d 100%);
+  box-shadow: 0 34px 80px rgba(45, 36, 15, .28), inset 0 0 90px rgba(0, 0, 0, .35);
+  cursor: grab;
+  touch-action: pan-y;
 }
+.walnut-stage.dragging { cursor: grabbing; }
 .walnut-fallback {
   position: absolute;
   inset: 0;
@@ -902,43 +841,43 @@ html.has-cursor * { cursor: none !important; }
 .walnut-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .walnut-hint {
   position: absolute;
-  bottom: 20px; left: 0; right: 0;
+  bottom: 22px; left: 0; right: 0;
   text-align: center;
-  font-size: .68rem;
+  font-size: .66rem;
   font-weight: 600;
   letter-spacing: .2em;
   text-transform: uppercase;
-  color: rgba(247, 243, 239, .45);
+  color: rgba(247, 243, 239, .5);
   pointer-events: none;
   opacity: 0;
   transition: opacity .6s ease .3s;
 }
 .walnut-stage.ready .walnut-hint { opacity: 1; }
-
-/* ============ Shader zemin (süreç bölümü) ============ */
-.section-shader { position: relative; overflow: hidden; }
-.shader-bg { position: absolute; inset: 0; opacity: .6; }
-.shader-bg canvas { width: 100%; height: 100%; display: block; }
-.section-shader > .container { position: relative; z-index: 1; }
-
-/* ============ Koyu zemin spec listesi ============ */
-.spec-list-light { border-top-color: var(--line-lt); }
-.spec-list-light .spec-row { border-bottom-color: var(--line-lt); }
-.spec-list-light dt { color: rgba(247, 243, 239, .7); }
-.spec-list-light dd { color: var(--cream); }
-
-/* ============ View Transitions (MPA) ============ */
-@view-transition { navigation: auto; }
-::view-transition-old(root) { animation: vt-out .25s ease both; }
-::view-transition-new(root) { animation: vt-in .3s ease both; }
-@keyframes vt-out { to { opacity: 0; } }
-@keyframes vt-in { from { opacity: 0; } }
+.walnut-toggle {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 28px;
+  border-radius: 2px;
+  border: 1.5px solid var(--forest);
+  background: transparent;
+  color: var(--forest);
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .3s var(--ease), color .3s var(--ease);
+}
+.walnut-view.ready .walnut-toggle { display: inline-flex; }
+.walnut-toggle:hover { background: var(--forest); color: var(--cream); }
+.walnut-toggle svg { width: 16px; height: 16px; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .gallery-item img { transition: none; }
-  .preloader { display: none; }
   * { animation: none !important; }
 }
 
