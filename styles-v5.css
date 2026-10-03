@@ -801,6 +801,13 @@ p { max-width: 68ch; }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .gallery-item img { transition: none; }
+  * { animation: none !important; }
+}
+
 /* ============ 3D ceviz sahnesi ============ */
 .walnut-grid {
   display: grid;
@@ -853,8 +860,6 @@ p { max-width: 68ch; }
   transition: opacity .6s ease .3s;
 }
 .walnut-stage.ready .walnut-hint { opacity: 1; }
-.walnut-view.ready 
-
 /* ============ Yardımcı sınıflar ============ */
 .section-flush { padding-top: 0; }
 .quote-divider { margin-bottom: clamp(48px, 7vw, 80px); }
@@ -972,4 +977,12 @@ p { max-width: 68ch; }
   .mobile-telbar a svg { width: 17px; height: 17px; }
   .mobile-telbar .wa { background: var(--forest); }
   .mobile-telbar .wa svg { color: #7ddc8a; }
+}
+
+.walnut-credit {
+  margin-top: -8px;
+  font-size: .68rem;
+  letter-spacing: .04em;
+  color: var(--walnut);
+  opacity: .75;
 }
