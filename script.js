@@ -44,13 +44,17 @@
     var lightbox = document.getElementById('lightbox');
     var lightboxImg = document.getElementById('lightboxImg');
     var lightboxClose = document.getElementById('lightboxClose');
+    var lastTrigger = null;
 
     function openLightbox(src) {
         if (!lightbox || !lightboxImg || !src) return;
+        lastTrigger = document.activeElement;
         lightboxImg.src = src;
         lightbox.classList.add('open');
         lightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        void lightbox.offsetWidth; /* stil hesabını zorla; odaklanabilir olsun */
+        if (lightboxClose) lightboxClose.focus();
     }
 
     function closeLightbox() {
@@ -58,11 +62,26 @@
         lightbox.classList.remove('open');
         lightbox.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        if (lastTrigger && typeof lastTrigger.focus === 'function') {
+            lastTrigger.focus();
+            lastTrigger = null;
+        }
     }
 
     document.querySelectorAll('.gallery-item').forEach(function (item) {
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('role', 'button');
+        if (!item.getAttribute('aria-label')) {
+            item.setAttribute('aria-label', 'Fotoğrafı büyüt');
+        }
         item.addEventListener('click', function () {
             openLightbox(item.getAttribute('data-src'));
+        });
+        item.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openLightbox(item.getAttribute('data-src'));
+            }
         });
     });
 
@@ -74,7 +93,7 @@
     }
     window.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-            closeNav();
+            if (siteNav && siteNav.classList.contains('open')) closeNav();
             closeLightbox();
         }
     });
@@ -91,8 +110,10 @@
         }
 
         function updateOrder(btn) {
+            if (!btn) return;
             var kg = btn.getAttribute('data-kg');
             var price = parseInt(btn.getAttribute('data-price'), 10);
+            if (!isFinite(price) || price <= 0) return;
 
             qtyOptions.querySelectorAll('.qty-btn').forEach(function (b) {
                 b.classList.remove('active');
