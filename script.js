@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    if (window.console && console.info) console.info('TRC Ceviz — build v5 (scanned model)');
+    if (window.console && console.info) console.info('TRC Ceviz — build v7 (white interior mass)');
 
     /* ---- Ortam kapıları ---- */
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -389,9 +389,11 @@
             var loader = new GLTFLoader();
             loader.load('models/walnut.glb', function (gltf) {
                 var root = gltf.scene;
+
+                /* Kabuk: tek yüz (FrontSide) */
                 root.traverse(function (o) {
                     if (o.isMesh) {
-                        o.material.side = THREE.DoubleSide;
+                        o.material.side = THREE.FrontSide;
                         if (o.material.map) {
                             o.material.map.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
                         }
@@ -402,6 +404,23 @@
                 var box = new THREE.Box3().setFromObject(root);
                 var center = box.getCenter(new THREE.Vector3());
                 var size = box.getSize(new THREE.Vector3());
+
+                /* Beyaz iç kütle: tarama deliklerinden/alt açıklıktan bakınca
+                   cevizin içi beyaz görünür */
+                var innerGeo = new THREE.SphereGeometry(1, 40, 30);
+                var innerMat = new THREE.MeshStandardMaterial({
+                    color: 0xfaf5e8,
+                    roughness: 0.9,
+                    metalness: 0.0,
+                    envMapIntensity: 0.7,
+                    emissive: 0x8f897a,
+                    emissiveIntensity: 0.62
+                });
+                var innerMass = new THREE.Mesh(innerGeo, innerMat);
+                innerMass.scale.set(size.x * 0.32, size.y * 0.32, size.z * 0.32);
+                innerMass.position.copy(center);
+                root.add(innerMass);
+
                 var scale = 2.0 / Math.max(size.x, size.y, size.z);
 
                 wrapper = new THREE.Group();
