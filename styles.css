@@ -801,10 +801,144 @@ p { max-width: 68ch; }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 
+/* ============ Preloader ============ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  background: var(--forest-d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.preloader-inner { text-align: center; color: var(--cream); }
+.preloader-count {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 10vw, 6rem);
+  line-height: 1;
+  display: block;
+}
+.preloader-brand {
+  display: block;
+  margin-top: 16px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 239, .55);
+}
+.preloader.done { transform: translateY(-100%); transition: transform .9s cubic-bezier(.76, 0, .24, 1); }
+body.is-loading { overflow: hidden; }
+
+/* ============ Split satır maskeleri ============ */
+.split-line { display: block; overflow: hidden; }
+
+/* ============ Hero partikülleri ============ */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============ Custom cursor (yalnız hassas işaretçi) ============ */
+html.has-cursor * { cursor: none !important; }
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 5000;
+  opacity: 0;
+  transition: opacity .3s ease;
+  mix-blend-mode: difference;
+}
+.cursor-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.cursor-ring { width: 36px; height: 36px; }
+.cursor-ring span {
+  display: block;
+  width: 100%; height: 100%;
+  border: 1px solid rgba(255, 255, 255, .7);
+  border-radius: 50%;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.cursor-ring.is-hover span { transform: scale(1.55); }
+
+/* ============ 3D ceviz sahnesi ============ */
+.walnut-grid {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: clamp(36px, 5vw, 72px);
+  align-items: center;
+}
+.walnut-grid > * { min-width: 0; }
+.walnut-copy p { color: var(--ink-70); margin-bottom: 14px; }
+.walnut-copy p strong { color: var(--ink); }
+.walnut-stage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 520px;
+  margin-left: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 30% 18%, #35482f 0%, #24301d 55%, #161f0f 100%);
+  box-shadow: 0 34px 80px rgba(45, 36, 15, .28);
+}
+.walnut-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: opacity .7s ease;
+}
+.walnut-stage.ready .walnut-fallback { opacity: 0; }
+.walnut-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.walnut-hint {
+  position: absolute;
+  bottom: 20px; left: 0; right: 0;
+  text-align: center;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 239, .45);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s ease .3s;
+}
+.walnut-stage.ready .walnut-hint { opacity: 1; }
+
+/* ============ Shader zemin (süreç bölümü) ============ */
+.section-shader { position: relative; overflow: hidden; }
+.shader-bg { position: absolute; inset: 0; opacity: .6; }
+.shader-bg canvas { width: 100%; height: 100%; display: block; }
+.section-shader > .container { position: relative; z-index: 1; }
+
+/* ============ Koyu zemin spec listesi ============ */
+.spec-list-light { border-top-color: var(--line-lt); }
+.spec-list-light .spec-row { border-bottom-color: var(--line-lt); }
+.spec-list-light dt { color: rgba(247, 243, 239, .7); }
+.spec-list-light dd { color: var(--cream); }
+
+/* ============ View Transitions (MPA) ============ */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out .25s ease both; }
+::view-transition-new(root) { animation: vt-in .3s ease both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .gallery-item img { transition: none; }
+  .preloader { display: none; }
   * { animation: none !important; }
 }
 
@@ -827,12 +961,13 @@ p { max-width: 68ch; }
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
   .stat + .stat::before { display: none; }
-  .product-grid, .split, .quote-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .product-grid, .split, .quote-grid, .contact-grid, .walnut-grid { grid-template-columns: 1fr; gap: 40px; }
   .overview-grid { grid-template-columns: repeat(2, 1fr); }
   .quote-media { max-width: 380px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .header-tel span { display: none; }
   .header-tel { padding: 10px 12px; }
+  .walnut-stage { margin: 0 auto; }
 }
 
 @media (max-width: 720px) {

@@ -18,6 +18,13 @@
 </head>
 <body>
 
+    <div class="preloader" id="preloader" aria-hidden="true">
+        <div class="preloader-inner">
+            <span class="preloader-count" id="preloaderCount">0</span>
+            <span class="preloader-brand">TR Ceviz Bahçesi</span>
+        </div>
+    </div>
+
     <div class="grain-overlay" aria-hidden="true"></div>
 
     <header class="site-header" id="siteHeader">
@@ -49,10 +56,11 @@
         <section class="hero" id="top">
             <img class="hero-img" src="images/farm3.jpg" alt="Çanakkale'deki ceviz bahçesi" fetchpriority="high">
             <div class="hero-overlay" aria-hidden="true"></div>
+            <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-price">2026 hasadı · 160 ₺/kg <small>· doğrudan üreticiden</small></div>
-                    <h1>Çanakkale'de <em>Chandler</em> cevizi yetiştiriyoruz</h1>
+                    <h1 data-split>Çanakkale'de <em>Chandler</em> cevizi yetiştiriyoruz</h1>
                     <p class="hero-sub">925 ağaç, 50.699 m². Kendi bahçemizde yetişir, kendi tesisimizde kurutulur, aracısız size ulaşır.</p>
                     <div class="hero-actions">
                         <a href="ceviz-satis.html" class="btn btn-amber">Ceviz Satın Al</a>
@@ -145,7 +153,7 @@
                     </div>
                     <div class="split-body reveal">
                         <span class="label">Bahçemiz</span>
-                        <h2>2012'den beri aynı toprakta</h2>
+                        <h2 data-split>2012'den beri aynı toprakta</h2>
                         <p>Bahçemiz Aralık 2012'de, Denizli'den getirilen <strong>925 mavi sertifikalı Chandler fidanı</strong> ile kuruldu. Çanakkale–İzmir duble yoluna 750 metre mesafede, iki tarafı yola açık bir parselde.</p>
                         <p>Cevizlerimiz Akçapınar barajından gelen suyla, 3 kademe filtreli damlama sistemiyle sulanır; toprak nemi sensörlerle günlük ölçülür. Bahçenin tamamı güneş enerjisiyle çalışır.</p>
                         <dl class="spec-list">
@@ -159,12 +167,36 @@
             </div>
         </section>
 
+        <!-- Ürünü 3D incele -->
+        <section class="section">
+            <div class="container">
+                <div class="walnut-grid">
+                    <div class="walnut-copy reveal">
+                        <span class="label">Ürün</span>
+                        <h2 data-split>Kabuğun içinde ne var?</h2>
+                        <p>Chandler çeşidi; <strong>ince kabuklu ve dolgun içli</strong> yapısıyla cevizler arasında aranan bir çeşittir. Taneleri iri, iç oranı yüksektir.</p>
+                        <p>Sitemizdeki cevizleri kendi tesisimizde soyuyor, 3 siloda kurutuyor, boş–dolu makinesinden geçirip boyluyoruz. Yani kabuğun içindeki her tane, aynı bahçeden çıkma.</p>
+                        <dl class="spec-list">
+                            <div class="spec-row"><dt>Çeşit</dt><dd>Chandler</dd></div>
+                            <div class="spec-row"><dt>İç oranı</dt><dd>Yüksek, iri taneli</dd></div>
+                            <div class="spec-row"><dt>İşleme</dt><dd>Kendi tesisimizde</dd></div>
+                        </dl>
+                    </div>
+                    <div class="walnut-stage reveal" id="walnutStage">
+                        <img class="walnut-fallback" src="images/sat.jpg" alt="Chandler cevizi" loading="lazy">
+                        <span class="walnut-hint">Sürükleyin · döndürün</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Süreç -->
-        <section class="section section-dark">
+        <section class="section section-dark section-shader">
+            <div class="shader-bg" id="shaderBg" aria-hidden="true"></div>
             <div class="container">
                 <div class="section-head">
                     <span class="label label-light">Nasıl üretiyoruz</span>
-                    <h2>Hasattan çuvala, dört adım</h2>
+                    <h2 data-split>Hasattan çuvala, dört adım</h2>
                 </div>
                 <div class="process-grid">
                     <div class="process-step reveal">
@@ -311,6 +343,10 @@
         <img id="lightboxImg" src="" alt="Büyük fotoğraf">
     </div>
 
-    <script src="script.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+    <script defer src="script.js"></script>
 </body>
 </html>
