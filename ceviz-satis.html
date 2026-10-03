@@ -9,11 +9,14 @@
     <meta property="og:description" content="2026 hasadı taze ceviz, 160 TL/kg. Doğrudan üreticiden, aracısız.">
     <meta property="og:image" content="https://www.trceviz.com/images/sat.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.trceviz.com/ceviz-satis.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://www.trceviz.com/ceviz-satis.html">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles-v9.css">
+    <link rel="stylesheet" href="styles-v10.css">
     <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
 </head>
 <body>
@@ -48,7 +51,7 @@
         <section class="page-hero">
             <div class="container">
                 <span class="label label-light">2026 Hasadı · Stokta</span>
-                <h1>Ceviz satış</h1>
+                <h1>Ceviz Satış</h1>
                 <p>2026 hasadı Chandler cevizleri; soyulmuş, kurutulmuş ve boylanmış olarak doğrudan bahçeden gönderilir.</p>
             </div>
         </section>
@@ -58,7 +61,10 @@
                 <div class="product-grid">
                     <div class="product-media reveal">
                         <span class="product-badge">160 ₺/kg</span>
-                        <img src="images/sat.jpg" alt="Taze Chandler cevizi" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="images/sat-480.webp 480w, images/sat-768.webp 768w" sizes="(max-width: 900px) 100vw, 45vw">
+                            <img src="images/sat.jpg" alt="Taze Chandler cevizi" loading="lazy" width="768" height="1024">
+                        </picture>
                     </div>
                     <div class="reveal">
                         <span class="label">Sipariş</span>
@@ -182,6 +188,6 @@
         </a>
     </div>
 
-    <script defer src="app-v9.js"></script>
+    <script defer src="app-v10.js"></script>
 </body>
 </html>

@@ -9,12 +9,33 @@
     <meta property="og:description" content="925 Chandler ağacı, 50.699 m². 2026 hasadı taze ceviz, 160 TL/kg. Doğrudan üreticiden.">
     <meta property="og:image" content="https://www.trceviz.com/images/farm3.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.trceviz.com/">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://www.trceviz.com/">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles-v9.css">
+    <link rel="stylesheet" href="styles-v10.css">
     <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "TR Ceviz Bahçesi",
+        "description": "Çanakkale Akçapınar'da 925 Chandler ağacıyla kurulu ceviz bahçesi. Taze ve doğal ceviz.",
+        "url": "https://www.trceviz.com/",
+        "telephone": "+905335195222",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Akçapınar",
+            "addressRegion": "Çanakkale",
+            "addressCountry": "TR"
+        },
+        "image": "https://www.trceviz.com/images/farm3.jpg",
+        "priceRange": "160 TL/kg"
+    }
+    </script>
 </head>
 <body>
 
@@ -47,7 +68,10 @@
     <main>
         <!-- Hero -->
         <section class="hero" id="top">
-            <img class="hero-img" src="images/farm3.jpg" alt="Çanakkale'deki ceviz bahçesi" fetchpriority="high">
+            <picture>
+                <source type="image/webp" srcset="images/farm3-800.webp 800w, images/farm3-1600.webp 1600w" sizes="100vw">
+                <img class="hero-img" src="images/farm3.jpg" alt="Çanakkale'deki ceviz bahçesi" fetchpriority="high" width="1600" height="900">
+            </picture>
             <div class="hero-overlay" aria-hidden="true"></div>
             <div class="container">
                 <div class="hero-content">
@@ -109,13 +133,16 @@
             </div>
         </section>
 
-        <!-- Ürün sahnesi -->
+        <!-- Ürün -->
         <section class="section">
             <div class="container">
                 <div class="product-grid">
                     <div class="product-media reveal">
                         <span class="product-badge">2026 Hasadı</span>
-                        <img src="images/sat.jpg" alt="Taze Chandler cevizi" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="images/sat-480.webp 480w, images/sat-768.webp 768w" sizes="(max-width: 900px) 100vw, 45vw">
+                            <img src="images/sat.jpg" alt="Taze Chandler cevizi" loading="lazy" width="768" height="1024">
+                        </picture>
                     </div>
                     <div class="product-info reveal">
                         <span class="label">Ürünümüz</span>
@@ -141,7 +168,10 @@
             <div class="container">
                 <div class="split">
                     <div class="split-media reveal">
-                        <img src="images/farm1.jpg" alt="Ceviz bahçesinin genel görünümü" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="images/farm1-480.webp 480w, images/farm1-760.webp 760w" sizes="(max-width: 900px) 100vw, 50vw">
+                            <img src="images/farm1.jpg" alt="Ceviz bahçesinin genel görünümü" loading="lazy" width="760" height="576">
+                        </picture>
                     </div>
                     <div class="split-body reveal">
                         <span class="label">Bahçemiz</span>
@@ -154,28 +184,6 @@
                             <div class="spec-row"><dt>Dikim aralığı</dt><dd>8 m × 6 m</dd></div>
                             <div class="spec-row"><dt>Sulama</dt><dd>Damlama, sensör takipli</dd></div>
                         </dl>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Ürün detayı -->
-        <section class="section">
-            <div class="container">
-                <div class="split">
-                    <div class="split-body reveal">
-                        <span class="label">Ürün</span>
-                        <h2>Kabuğun içinde ne var?</h2>
-                        <p>Chandler çeşidi; <strong>ince kabuklu ve dolgun içli</strong> yapısıyla cevizler arasında aranan bir çeşittir. Taneleri iri, iç oranı yüksektir.</p>
-                        <p>Sitemizdeki cevizleri kendi tesisimizde soyuyor, 3 siloda kurutuyor, boş–dolu makinesinden geçirip boyluyoruz. Yani kabuğun içindeki her tane, aynı bahçeden çıkma.</p>
-                        <dl class="spec-list">
-                            <div class="spec-row"><dt>Çeşit</dt><dd>Chandler</dd></div>
-                            <div class="spec-row"><dt>İç oranı</dt><dd>Yüksek, iri taneli</dd></div>
-                            <div class="spec-row"><dt>İşleme</dt><dd>Kendi tesisimizde</dd></div>
-                        </dl>
-                    </div>
-                    <div class="split-media reveal">
-                        <img src="images/sat.jpg" alt="Chandler cevizi" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -219,7 +227,10 @@
                 <hr class="hr-light quote-divider">
                 <div class="quote-grid">
                     <div class="quote-media reveal">
-                        <img src="images/mahmut.jpg" alt="Mahmut Torlak — TR Ceviz Bahçesi" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="images/mahmut-480.webp 480w, images/mahmut-663.webp 663w" sizes="(max-width: 900px) 100vw, 33vw">
+                            <img src="images/mahmut.jpg" alt="Mahmut Torlak — TR Ceviz Bahçesi" loading="lazy" width="663" height="889">
+                        </picture>
                     </div>
                     <div class="reveal">
                         <span class="quote-mark">"</span>
@@ -239,27 +250,45 @@
                 </div>
                 <div class="gallery-grid" id="gallery">
                     <div class="gallery-item tall reveal" data-src="images/farm6_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm6_dik.jpg" alt="Ceviz ağaçları" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm6_dik-480.webp 480w, images/farm6_dik-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm6_dik.jpg" alt="Ceviz ağaçları" loading="lazy" width="1200" height="1600">
+                        </picture></div>
                         <span class="gallery-cap">İlkbahar · Ağaçlar</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm4.jpg">
-                        <div class="img-wrap"><img src="images/farm4.jpg" alt="Bahçe manzarası" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm4-480.webp 480w, images/farm4-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm4.jpg" alt="Bahçe manzarası" loading="lazy" width="1600" height="1200">
+                        </picture></div>
                         <span class="gallery-cap">Yaz · Bahçe</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm2.jpg">
-                        <div class="img-wrap"><img src="images/farm2.jpg" alt="Toprak ve damlama sulama" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm2-480.webp 480w, images/farm2-832.webp 832w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm2.jpg" alt="Toprak ve damlama sulama" loading="lazy" width="832" height="469">
+                        </picture></div>
                         <span class="gallery-cap">Damlama sulama</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm5.jpg">
-                        <div class="img-wrap"><img src="images/farm5.jpg" alt="Gün batımında bahçe" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm5-480.webp 480w, images/farm5-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm5.jpg" alt="Gün batımında bahçe" loading="lazy" width="1600" height="1200">
+                        </picture></div>
                         <span class="gallery-cap">Hasat öncesi</span>
                     </div>
                     <div class="gallery-item tall reveal" data-src="images/farm7_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm7_dik.jpg" alt="Ceviz ağacı yakından" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm7_dik-480.webp 480w, images/farm7_dik-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm7_dik.jpg" alt="Ceviz ağacı yakından" loading="lazy" width="1200" height="1600">
+                        </picture></div>
                         <span class="gallery-cap">Ağaç dokusu</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm8_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm8_dik.jpg" alt="Bahçe sıraları" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm8_dik-480.webp 480w, images/farm8_dik-900.webp 900w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm8_dik.jpg" alt="Bahçe sıraları" loading="lazy" width="900" height="1600">
+                        </picture></div>
                         <span class="gallery-cap">Sıra arası</span>
                     </div>
                 </div>
@@ -328,11 +357,11 @@
         </a>
     </div>
 
-    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Fotoğraf önizleme">
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Fotoğraf önizleme">
         <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">&times;</button>
-        <img id="lightboxImg" src="" alt="Büyük fotoğraf">
+        <img id="lightboxImg" alt="Büyük fotoğraf">
     </div>
 
-    <script defer src="app-v9.js"></script>
+    <script defer src="app-v10.js"></script>
 </body>
 </html>

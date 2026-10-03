@@ -9,11 +9,14 @@
     <meta property="og:description" content="925 Chandler ağacı, 50.699 m², 2012'den beri. Damlama sulama, güneş enerjisi, kendi kurutma tesisimiz.">
     <meta property="og:image" content="https://www.trceviz.com/images/farm1.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.trceviz.com/about.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://www.trceviz.com/about.html">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles-v9.css">
+    <link rel="stylesheet" href="styles-v10.css">
     <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
 </head>
 <body>
@@ -58,7 +61,10 @@
             <div class="container">
                 <div class="split">
                     <div class="split-media reveal">
-                        <img src="images/farm1.jpg" alt="Bahçenin genel görünümü" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="images/farm1-480.webp 480w, images/farm1-760.webp 760w" sizes="(max-width: 900px) 100vw, 50vw">
+                            <img src="images/farm1.jpg" alt="Bahçenin genel görünümü" loading="lazy" width="760" height="576">
+                        </picture>
                     </div>
                     <div class="split-body reveal">
                         <span class="label">Kuruluş</span>
@@ -84,7 +90,7 @@
                         <span class="label">Sulama</span>
                         <h2>Ölçülü ve planlı sulama</h2>
                         <p>Bahçe, Akçapınar köyü barajından kapalı sulama hattıyla beslenir. Ana hattan 4 kola ayrılan su, hidrosiklon, gravel ve disk filtre olmak üzere <strong>3 kademede filtrelenir</strong>; ultrasonik sayaçla takip edilir.</p>
-                        <p>Her ceviz sırasına ayrı vana konulmuş; sıra üzeri <strong>Netafim damlama boruları</strong> ile 50 cm'de 2 L/saat debiyle sulanır. Toprak nemi, 30 ve 60 cm derinlikteki sensörlerle günlük olarak ölçülür.</p>
+                        <p>Her ceviz sırasına ayrı vana konulmuş; sıra üzeri <strong>Netafim damlama boruları</strong> ile 50 cm aralıkla 2 L/saat debiyle sulanır. Toprak nemi, 30 ve 60 cm derinlikteki sensörlerle günlük olarak ölçülür.</p>
                         <dl class="spec-list">
                             <div class="spec-row"><dt>Kaynak</dt><dd>Akçapınar barajı</dd></div>
                             <div class="spec-row"><dt>Filtreleme</dt><dd>3 kademe</dd></div>
@@ -93,7 +99,10 @@
                         </dl>
                     </div>
                     <div class="split-media reveal">
-                        <img src="images/farm2.jpg" alt="Damlama sulama sistemi" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="images/farm2-480.webp 480w, images/farm2-832.webp 832w" sizes="(max-width: 900px) 100vw, 50vw">
+                            <img src="images/farm2.jpg" alt="Damlama sulama sistemi" loading="lazy" width="832" height="469">
+                        </picture>
                     </div>
                 </div>
             </div>
@@ -143,27 +152,45 @@
                 </div>
                 <div class="gallery-grid" id="gallery">
                     <div class="gallery-item reveal" data-src="images/farm3.jpg">
-                        <div class="img-wrap"><img src="images/farm3.jpg" alt="Bahçe manzarası" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm3-800.webp 800w, images/farm3-1600.webp 1600w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm3.jpg" alt="Bahçe manzarası" loading="lazy" width="1600" height="900">
+                        </picture></div>
                         <span class="gallery-cap">Genel görünüm</span>
                     </div>
                     <div class="gallery-item tall reveal" data-src="images/farm8_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm8_dik.jpg" alt="Ceviz ağacı yakından" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm8_dik-480.webp 480w, images/farm8_dik-900.webp 900w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm8_dik.jpg" alt="Ceviz ağacı yakından" loading="lazy" width="900" height="1600">
+                        </picture></div>
                         <span class="gallery-cap">Ağaç ve dal</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm4.jpg">
-                        <div class="img-wrap"><img src="images/farm4.jpg" alt="Bahçe sıraları" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm4-480.webp 480w, images/farm4-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm4.jpg" alt="Bahçe sıraları" loading="lazy" width="1600" height="1200">
+                        </picture></div>
                         <span class="gallery-cap">Sıra düzeni</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm9_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm9_dik.jpg" alt="Dikey bahçe görüntüsü" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm9_dik-480.webp 480w, images/farm9_dik-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm9_dik.jpg" alt="Dikey bahçe görüntüsü" loading="lazy" width="1200" height="1600">
+                        </picture></div>
                         <span class="gallery-cap">Bahçe dokusu</span>
                     </div>
                     <div class="gallery-item tall reveal" data-src="images/farm7_dik.jpg">
-                        <div class="img-wrap"><img src="images/farm7_dik.jpg" alt="Yakın çekim" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm7_dik-480.webp 480w, images/farm7_dik-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm7_dik.jpg" alt="Yakın çekim" loading="lazy" width="1200" height="1600">
+                        </picture></div>
                         <span class="gallery-cap">Yakın çekim</span>
                     </div>
                     <div class="gallery-item reveal" data-src="images/farm5.jpg">
-                        <div class="img-wrap"><img src="images/farm5.jpg" alt="Gün batımı" loading="lazy"></div>
+                        <div class="img-wrap"><picture>
+                            <source type="image/webp" srcset="images/farm5-480.webp 480w, images/farm5-960.webp 960w" sizes="(max-width: 720px) 50vw, 33vw">
+                            <img src="images/farm5.jpg" alt="Gün batımı" loading="lazy" width="1600" height="1200">
+                        </picture></div>
                         <span class="gallery-cap">Gün batımı</span>
                     </div>
                 </div>
@@ -231,11 +258,11 @@
         </a>
     </div>
 
-    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Fotoğraf önizleme">
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Fotoğraf önizleme">
         <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">&times;</button>
-        <img id="lightboxImg" src="" alt="Büyük fotoğraf">
+        <img id="lightboxImg" alt="Büyük fotoğraf">
     </div>
 
-    <script defer src="app-v9.js"></script>
+    <script defer src="app-v10.js"></script>
 </body>
 </html>

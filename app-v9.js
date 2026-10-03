@@ -1,18 +1,12 @@
 /* ============================================================
-   TR Ceviz Bahçesi — v9 (2026-10-03)
+   TR Ceviz Bahçesi — v10 (2026-10-03)
    header · mobil menü · lightbox · sipariş seçici · reveal
    ============================================================ */
 (function () {
     'use strict';
 
-    if (window.console && console.info) console.info('TRC Ceviz — build v9 (3D removed)');
-
     /* ---- Ortam kapıları ---- */
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var conn = navigator.connection || {};
-    var saveData = !!conn.saveData;
-    var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-                   (navigator.deviceMemory && navigator.deviceMemory <= 4);
 
     /* ---- Scroll kilidi ---- */
     function lockScroll() { document.body.style.overflow = 'hidden'; }
@@ -34,13 +28,14 @@
 
     function closeNav() {
         if (!siteNav) return;
+        var wasOpen = siteNav.classList.contains('open');
         siteNav.classList.remove('open');
         if (navToggle) {
             navToggle.classList.remove('active');
             navToggle.setAttribute('aria-expanded', 'false');
             navToggle.setAttribute('aria-label', 'Menüyü aç');
         }
-        unlockScroll();
+        if (wasOpen) unlockScroll();
     }
 
     if (navToggle && siteNav) {
@@ -62,10 +57,11 @@
     var lightboxClose = document.getElementById('lightboxClose');
     var lastTrigger = null;
 
-    function openLightbox(src) {
+    function openLightbox(src, alt) {
         if (!lightbox || !lightboxImg || !src) return;
         lastTrigger = document.activeElement;
         lightboxImg.src = src;
+        lightboxImg.alt = alt || 'Büyük fotoğraf';
         lightbox.classList.add('open');
         lightbox.setAttribute('aria-hidden', 'false');
         lockScroll();
@@ -90,13 +86,15 @@
         if (!item.getAttribute('aria-label')) {
             item.setAttribute('aria-label', 'Fotoğrafı büyüt');
         }
-        item.addEventListener('click', function () {
-            openLightbox(item.getAttribute('data-src'));
-        });
+        function activate() {
+            var img = item.querySelector('img');
+            openLightbox(item.getAttribute('data-src'), img ? img.alt : null);
+        }
+        item.addEventListener('click', activate);
         item.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                openLightbox(item.getAttribute('data-src'));
+                activate();
             }
         });
     });
