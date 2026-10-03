@@ -1,5 +1,5 @@
 /* ============================================================
-   TR Ceviz Bahçesi — etkileşimler
+   TR Ceviz Bahçesi — etkileşimler & animasyonlar
    ============================================================ */
 (function () {
     'use strict';
@@ -7,6 +7,8 @@
     var header = document.getElementById('siteHeader');
     var navToggle = document.getElementById('navToggle');
     var siteNav = document.getElementById('siteNav');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isTouch = window.matchMedia('(hover: none)').matches;
 
     /* ---- Header: kaydırınca daral/arka plan ---- */
     function onScroll() {
@@ -105,4 +107,121 @@
             closeLightbox();
         }
     });
+
+    /* ============================================================
+       Gelişmiş animasyonlar (GSAP + Lenis + SplitType + countUp)
+       ============================================================ */
+    var gsapOk = typeof window.gsap !== 'undefined';
+    var ScrollTriggerOk = gsapOk && typeof window.ScrollTrigger !== 'undefined';
+    var splitOk = typeof window.SplitType !== 'undefined';
+    var lenisOk = typeof window.Lenis !== 'undefined';
+    var countOk = typeof window.countUp !== 'undefined' && typeof window.countUp.CountUp !== 'undefined';
+    var CountUpCls = countOk ? window.countUp.CountUp : null;
+
+    /* ---- Lenis smooth scroll ---- */
+    var lenis = null;
+    if (lenisOk && !reduceMotion && !isTouch) {
+        lenis = new Lenis({
+            duration: 1.1,
+            easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+            smoothWheel: true,
+        });
+        if (ScrollTriggerOk) {
+            lenis.on('scroll', ScrollTrigger.update);
+        }
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    }
+
+    /* ---- GSAP: başlık text reveal (SplitType) ---- */
+    if (ScrollTriggerOk) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        if (splitOk && !reduceMotion) {
+            document.querySelectorAll('[data-split]').forEach(function (el) {
+                var St = new SplitType(el, { types: 'lines, words' });
+                if (!St.lines) return;
+                gsap.fromTo(St.lines,
+                    { yPercent: 120, opacity: 0 },
+                    {
+                        yPercent: 0, opacity: 1, duration: 1,
+                        ease: 'power3.out',
+                        stagger: 0.08,
+                        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+                    }
+                );
+            });
+        }
+
+        /* ---- Görsel clip-path reveal ---- */
+        if (!reduceMotion) {
+            document.querySelectorAll('.reveal-img').forEach(function (img) {
+                gsap.fromTo(img,
+                    { clipPath: 'inset(0 0 100% 0)', y: 40 },
+                    {
+                        clipPath: 'inset(0 0 0% 0)', y: 0, duration: 1.1,
+                        ease: 'power3.out',
+                        scrollTrigger: { trigger: img, start: 'top 88%', toggleActions: 'play none none none' }
+                    }
+                );
+            });
+        }
+
+        /* ---- Hero parallax ---- */
+        var heroBg = document.querySelector('.hero-bg');
+        if (heroBg && !reduceMotion) {
+            gsap.to(heroBg, {
+                yPercent: 12,
+                ease: 'none',
+                scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+            });
+        }
+    }
+
+    /* ---- CountUp sayaçlar ---- */
+    if (countOk && !reduceMotion) {
+        document.querySelectorAll('[data-count]').forEach(function (el) {
+            var target = parseFloat(el.getAttribute('data-count'));
+            var suffix = el.getAttribute('data-suffix') || '';
+            var opts = {
+                duration: 2.2,
+                suffix: suffix,
+                separator: target >= 10000 ? '.' : '',
+                useGrouping: target >= 10000,
+            };
+            var counter = new CountUpCls(el, target, opts);
+            if (counter.error) return;
+            if ('IntersectionObserver' in window) {
+                var cio = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            counter.start();
+                            cio.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                cio.observe(el);
+            } else {
+                counter.start();
+            }
+        });
+    } else if (countOk) {
+        document.querySelectorAll('[data-count]').forEach(function (el) {
+            el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || '');
+        });
+    }
+
+    /* ---- Sticky scroll (shop) ---- */
+    if (ScrollTriggerOk && !reduceMotion) {
+        var stickyMedia = document.querySelector('.sticky-media');
+        if (stickyMedia) {
+            gsap.fromTo(stickyMedia,
+                { scale: 0.95 },
+                { scale: 1, ease: 'none', scrollTrigger: { trigger: '.sticky-scroll', start: 'top top', end: 'bottom bottom', scrub: true } }
+            );
+        }
+    }
 })();
