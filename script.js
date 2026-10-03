@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    if (window.console && console.info) console.info('TRC Ceviz — build v4');
+    if (window.console && console.info) console.info('TRC Ceviz — build v5 (scanned model)');
 
     /* ---- Ortam kapıları ---- */
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -186,9 +186,6 @@
 
     function initWalnut() {
         var stage = document.getElementById('walnutStage');
-        var view = stage ? stage.closest('.walnut-view') : null;
-        var toggleBtn = document.getElementById('walnutToggle');
-        var toggleLabel = document.getElementById('walnutToggleLabel');
         var hint = document.getElementById('walnutHint');
         if (!stage || reduceMotion || saveData || !webglOK()) return;
 
@@ -199,16 +196,17 @@
                 io.disconnect();
                 Promise.all([
                     import('https://cdn.jsdelivr.net/npm/three@0.185.0/+esm'),
+                    import('https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/loaders/GLTFLoader.js/+esm'),
                     import('https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/environments/RoomEnvironment.js/+esm')
                         .catch(function () { return null; })
                 ]).then(function (mods) {
-                    build(mods[0], mods[1] ? mods[1].RoomEnvironment : null);
+                    build(mods[0], mods[1].GLTFLoader, mods[2] ? mods[2].RoomEnvironment : null);
                 }).catch(function () { /* fallback görsel kalır */ });
             }
         }, { rootMargin: '400px' });
         io.observe(stage);
 
-        function build(THREE, RoomEnvironment) {
+        function build(THREE, GLTFLoader, RoomEnvironment) {
             var quality = lowPower ? 'low' : 'high';
             var w = stage.clientWidth || 460;
             var h = stage.clientHeight || 460;
@@ -220,14 +218,14 @@
             renderer.domElement.className = 'walnut-canvas';
             if (THREE.ACESFilmicToneMapping !== undefined) {
                 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-                renderer.toneMappingExposure = 1.18;
+                renderer.toneMappingExposure = 1.12;
             }
             if (THREE.SRGBColorSpace !== undefined) renderer.outputColorSpace = THREE.SRGBColorSpace;
             stage.appendChild(renderer.domElement);
 
             var scene = new THREE.Scene();
             var camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
-            camera.position.set(0, 0.42, 3.7);
+            camera.position.set(0, 0.25, 3.6);
             camera.lookAt(0, 0, 0);
 
             /* ---------- Stüdyo ortamı ---------- */
@@ -241,7 +239,6 @@
                 } catch (e) {}
             }
             if (!envReady) {
-                /* yedek: basit gradient equirect */
                 try {
                     var envCanvas = document.createElement('canvas');
                     envCanvas.width = 128; envCanvas.height = 64;
@@ -264,10 +261,10 @@
                 } catch (e) {}
             }
 
-            /* ---------- Işıklar (env üstüne ince rig) ---------- */
-            scene.add(new THREE.HemisphereLight(0xfff4e0, 0x1d2517, 0.25));
+            /* ---------- Işıklar ---------- */
+            scene.add(new THREE.HemisphereLight(0xfff4e0, 0x1d2517, 0.28));
 
-            var key = new THREE.DirectionalLight(0xfff1dc, 2.2);
+            var key = new THREE.DirectionalLight(0xfff1dc, 2.3);
             key.position.set(3.2, 4.2, 3.4);
             scene.add(key);
 
@@ -275,257 +272,16 @@
             rim.position.set(-4.0, 1.6, -3.2);
             scene.add(rim);
 
-            var fill = new THREE.DirectionalLight(0xffd9a0, 0.35);
+            var fill = new THREE.DirectionalLight(0xffd9a0, 0.32);
             fill.position.set(-2.4, -1.6, 2.6);
             scene.add(fill);
 
-            /* ---------- Prosedürel gürültü ---------- */
-            function makeNoise3D(seed) {
-                function hash(x, y, z) {
-                    var n = Math.sin(x * 127.1 + y * 311.7 + z * 74.7 + seed) * 43758.5453123;
-                    return n - Math.floor(n);
-                }
-                function fade(t) { return t * t * (3 - 2 * t); }
-                return function (x, y, z) {
-                    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
-                    var xf = x - xi, yf = y - yi, zf = z - zi;
-                    var u = fade(xf), v = fade(yf), wv = fade(zf);
-                    var c000 = hash(xi, yi, zi), c100 = hash(xi + 1, yi, zi);
-                    var c010 = hash(xi, yi + 1, zi), c110 = hash(xi + 1, yi + 1, zi);
-                    var c001 = hash(xi, yi, zi + 1), c101 = hash(xi + 1, yi, zi + 1);
-                    var c011 = hash(xi, yi + 1, zi + 1), c111 = hash(xi + 1, yi + 1, zi + 1);
-                    var x00 = c000 + (c100 - c000) * u, x10 = c010 + (c110 - c010) * u;
-                    var x01 = c001 + (c101 - c001) * u, x11 = c011 + (c111 - c011) * u;
-                    var y0 = x00 + (x10 - x00) * v, y1 = x01 + (x11 - x01) * v;
-                    return y0 + (y1 - y0) * wv;
-                };
-            }
-            var noise = makeNoise3D(17.3);
-
-            function fbm(x, y, z, oct) {
-                var s = 0, a = 0.5, f = 1, n = 0;
-                for (var i = 0; i < oct; i++) {
-                    s += a * noise(x * f, y * f, z * f);
-                    n += a; f *= 2.03; a *= 0.5;
-                }
-                return s / n;
-            }
-            function ridged(x, y, z, oct) {
-                var s = 0, a = 0.5, f = 1, n = 0;
-                for (var i = 0; i < oct; i++) {
-                    var v = noise(x * f, y * f, z * f);
-                    v = 1 - Math.abs(v * 2 - 1);
-                    v *= v;
-                    s += a * v; n += a; f *= 2.11; a *= 0.5;
-                }
-                return s / n;
-            }
-            /* domain-warped ridged — organik kırışıklık */
-            function shellField(x, y, z, oct) {
-                var az = Math.abs(z);
-                var q1 = fbm(x * 1.4 + 11.7, y * 1.4 + 33.1, az * 1.4 + 7.3, 2) - 0.5;
-                var q2 = fbm(x * 1.4 + 47.9, y * 1.4 + 19.3, az * 1.4 + 61.1, 2) - 0.5;
-                return ridged(x * 2.4 + q1 * 2.0, y * 1.5 + q2 * 2.0, az * 2.4 + q1 * 1.5, oct);
-            }
-            function kernelField(x, y, z, oct) {
-                var az = Math.abs(z);
-                var q1 = fbm(x * 2.2 + 5.1, y * 2.2 + 71.3, az * 2.2 + 3.7, 2) - 0.5;
-                return ridged(x * 4.5 + q1 * 2.5, y * 3.6 + q1 * 2.5, az * 4.5, oct);
-            }
-
-            /* ---------- Doku üretimi (height + albedo koherent) ---------- */
-            function lerpColor(c1, c2, t) {
-                return [
-                    Math.round(c1[0] + (c2[0] - c1[0]) * t),
-                    Math.round(c1[1] + (c2[1] - c1[1]) * t),
-                    Math.round(c1[2] + (c2[2] - c1[2]) * t)
-                ];
-            }
-            function ramp(c1, c2, c3, t) {
-                if (t < 0.5) return lerpColor(c1, c2, t * 2);
-                return lerpColor(c2, c3, (t - 0.5) * 2);
-            }
-
-            function generateMaps(size, kind) {
-                var isShell = kind === 'shell';
-                var dark = isShell ? [74, 52, 28] : [138, 100, 55];
-                var mid  = isShell ? [138, 106, 71] : [201, 168, 110];
-                var light = isShell ? [186, 152, 104] : [232, 208, 160];
-
-                var hCanvas = document.createElement('canvas');
-                hCanvas.width = hCanvas.height = size;
-                var hCtx = hCanvas.getContext('2d');
-                var hImg = hCtx.createImageData(size, size);
-                var hD = hImg.data;
-
-                var aCanvas = document.createElement('canvas');
-                aCanvas.width = aCanvas.height = size;
-                var aCtx = aCanvas.getContext('2d');
-                var aImg = aCtx.createImageData(size, size);
-                var aD = aImg.data;
-
-                var i = 0;
-                for (var y = 0; y < size; y++) {
-                    var theta = (y + 0.5) / size * Math.PI;
-                    var st = Math.sin(theta), ct = Math.cos(theta);
-                    for (var x = 0; x < size; x++) {
-                        var phi = (x + 0.5) / size * Math.PI;
-                        var px = -Math.cos(phi) * st;
-                        var py = ct;
-                        var pz = Math.sin(phi) * st;
-                        var az = Math.abs(pz);
-
-                        var hVal;
-                        if (isShell) {
-                            hVal = shellField(px, py, pz, 4) * 0.78 +
-                                   fbm(px * 9.0, py * 4.5, az * 9.0, 3) * 0.22;
-                        } else {
-                            hVal = kernelField(px, py, pz, 4) * 0.72 +
-                                   fbm(px * 16.0, py * 13.0, az * 16.0, 3) * 0.28;
-                        }
-                        if (hVal < 0) hVal = 0;
-                        if (hVal > 1) hVal = 1;
-
-                        var v = Math.round(hVal * 255);
-                        hD[i] = v; hD[i + 1] = v; hD[i + 2] = v; hD[i + 3] = 255;
-
-                        var jitter = (noise(px * 37.0 + 5.0, py * 37.0, az * 37.0) - 0.5) * 0.12;
-                        var col = ramp(dark, mid, light, Math.max(0, Math.min(1, hVal + jitter)));
-                        aD[i] = col[0]; aD[i + 1] = col[1]; aD[i + 2] = col[2]; aD[i + 3] = 255;
-
-                        i += 4;
-                    }
-                }
-                hCtx.putImageData(hImg, 0, 0);
-                aCtx.putImageData(aImg, 0, 0);
-                return { height: hCanvas, albedo: aCanvas };
-            }
-
-            var texSize = quality === 'low' ? 256 : 384;
-            var shellMaps = generateMaps(texSize, 'shell');
-            var kernelMaps = generateMaps(texSize, 'kernel');
-
-            function makeTex(canvas, srgb) {
-                var t = new THREE.CanvasTexture(canvas);
-                t.wrapS = t.wrapT = THREE.RepeatWrapping;
-                if (srgb && THREE.SRGBColorSpace !== undefined) t.colorSpace = THREE.SRGBColorSpace;
-                return t;
-            }
-
-            var shellAlbedo = makeTex(shellMaps.albedo, true);
-            var shellBump = makeTex(shellMaps.height, false);
-            var kernelAlbedo = makeTex(kernelMaps.albedo, true);
-            var kernelBump = makeTex(kernelMaps.height, false);
-
-            /* ---------- Geometri ---------- */
-            function shellDeform(geo, oct) {
-                var pos = geo.attributes.position;
-                var v = new THREE.Vector3();
-                for (var i = 0; i < pos.count; i++) {
-                    v.fromBufferAttribute(pos, i);
-                    var n = v.clone().normalize();
-                    var x = n.x, y = n.y, z = n.z;
-                    var az = Math.abs(z);
-                    var r = 1;
-
-                    r += 0.12 * (shellField(x, y, z, oct) - 0.45);
-                    r += 0.035 * (fbm(x * 9.0, y * 4.5, az * 9.0, 3) - 0.5);
-
-                    /* dikiş çıkıntısı */
-                    r += 0.022 * Math.exp(-Math.pow(az / 0.13, 2));
-
-                    /* sivri dip */
-                    if (y < -0.42) {
-                        var t = (-y - 0.42) / 0.58;
-                        var narrow = 1 - 0.55 * t * t;
-                        x *= narrow; az *= narrow;
-                    }
-                    /* tepe hafif basıklık */
-                    if (y > 0.72) {
-                        var s = (y - 0.72) / 0.28;
-                        r -= 0.05 * s * s;
-                    }
-
-                    v.set(x, y, n.z < 0 ? -az : az).normalize().multiplyScalar(r);
-                    v.x *= 0.94; v.y *= 1.14; v.z *= 0.94;
-                    pos.setXYZ(i, v.x, v.y, v.z);
-                }
-                geo.computeVertexNormals();
-                return geo;
-            }
-
-            function kernelDeform(geo, oct) {
-                var pos = geo.attributes.position;
-                var v = new THREE.Vector3();
-                for (var i = 0; i < pos.count; i++) {
-                    v.fromBufferAttribute(pos, i);
-                    var n = v.clone().normalize();
-                    var x = n.x, y = n.y, z = n.z;
-                    var az = Math.abs(z);
-                    var r = 1;
-
-                    r += 0.07 * (kernelField(x, y, z, oct) - 0.45);
-                    r += 0.025 * (fbm(x * 16.0, y * 13.0, az * 16.0, 3) - 0.5);
-
-                    /* orta yarık */
-                    r -= 0.22 * Math.exp(-Math.pow(az / 0.14, 2));
-
-                    v.set(x, y, n.z < 0 ? -az : az).normalize().multiplyScalar(r);
-                    pos.setXYZ(i, v.x, v.y, v.z);
-                }
-                geo.computeVertexNormals();
-                return geo;
-            }
-
-            var shellSeg = quality === 'low' ? [72, 48] : [96, 64];
-            var kernelSeg = quality === 'low' ? [64, 44] : [84, 60];
-            var shellOct = quality === 'low' ? 3 : 4;
-
-            var shellGeoFront = shellDeform(new THREE.SphereGeometry(1, shellSeg[0], shellSeg[1], 0, Math.PI), shellOct);
-            var shellGeoBack = shellDeform(new THREE.SphereGeometry(1, shellSeg[0], shellSeg[1], Math.PI, Math.PI), shellOct);
-            var kernelGeo = kernelDeform(new THREE.SphereGeometry(0.78, kernelSeg[0], kernelSeg[1]), shellOct);
-
-            /* ---------- Materyaller ---------- */
-            var shellMat = new THREE.MeshPhysicalMaterial({
-                map: shellAlbedo,
-                bumpMap: shellBump,
-                bumpScale: 0.05,
-                roughness: 0.6,
-                metalness: 0.02,
-                clearcoat: 0.3,
-                clearcoatRoughness: 0.55,
-                side: THREE.DoubleSide,
-                envMapIntensity: 1.0
-            });
-
-            var kernelMat = new THREE.MeshPhysicalMaterial({
-                map: kernelAlbedo,
-                bumpMap: kernelBump,
-                bumpScale: 0.04,
-                roughness: 0.45,
-                metalness: 0.0,
-                clearcoat: 0.2,
-                clearcoatRoughness: 0.5,
-                envMapIntensity: 1.15
-            });
-
-            /* ---------- Sahne düzeni ---------- */
-            var walnut = new THREE.Group();
-            var shellFront = new THREE.Mesh(shellGeoFront, shellMat);
-            var shellBack = new THREE.Mesh(shellGeoBack, shellMat);
-            var kernel = new THREE.Mesh(kernelGeo, kernelMat);
-            kernel.scale.set(0.86, 1.0, 0.62);
-
-            walnut.add(shellFront);
-            walnut.add(shellBack);
-            walnut.add(kernel);
-
-            var holder = new THREE.Group();
-            holder.add(walnut);
-            holder.rotation.y = -0.4;
+            /* ---------- Gerçek fotogrametri modeli ---------- */
+            var holder = new THREE.Group();   /* sürükleme döndürmesi */
+            holder.rotation.y = -0.35;
             scene.add(holder);
 
-            /* Temas gölgesi */
+            /* Temas gölgesi (model yüklenene kadar gizli) */
             var shadowCanvas = document.createElement('canvas');
             shadowCanvas.width = shadowCanvas.height = 128;
             var sctx = shadowCanvas.getContext('2d');
@@ -537,32 +293,21 @@
             sctx.fillRect(0, 0, 128, 128);
             var shadowTex = new THREE.CanvasTexture(shadowCanvas);
             var shadowMesh = new THREE.Mesh(
-                new THREE.PlaneGeometry(2.7, 2.7),
-                new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0.85 })
+                new THREE.PlaneGeometry(2.6, 2.6),
+                new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, opacity: 0 })
             );
             shadowMesh.rotation.x = -Math.PI / 2;
-            shadowMesh.position.y = -1.34;
+            shadowMesh.position.y = -1.15;
             scene.add(shadowMesh);
 
             /* ---------- Durum ---------- */
-            var open = false;
-            var openT = 0;
             var yawVel = 0;
-            var pitch = 0.08, pitchTarget = 0.08;
+            var pitch = 0.06, pitchTarget = 0.06;
             var dragging = false;
             var activePointerId = null;
             var downX = 0, downY = 0, downT = 0, moved = 0, lastMoveT = 0;
-
-            function setOpen(next) {
-                open = next;
-                if (toggleLabel) toggleLabel.textContent = open ? 'Kabuğu Kapat' : 'Kabuğu Aç';
-                if (toggleBtn) toggleBtn.setAttribute('aria-pressed', open ? 'true' : 'false');
-                if (hint) hint.textContent = open ? 'Kapatmak için dokunun' : 'Sürükleyin · dokununca açılır';
-            }
-
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', function () { setOpen(!open); });
-            }
+            var modelReady = false;
+            var wrapper = null;
 
             /* ---------- Sağlam drag ---------- */
             function endDrag(keepInertia) {
@@ -594,7 +339,6 @@
 
             window.addEventListener('pointermove', function (e) {
                 if (!dragging || e.pointerId !== activePointerId) return;
-                /* kayıp pointerup sigortası: fare basılı değilse drag bitti */
                 if (e.pointerType === 'mouse' && e.buttons === 0) {
                     endDrag(false);
                     return;
@@ -616,14 +360,12 @@
                 if (instVel < -8) instVel = -8;
                 yawVel = yawVel * 0.6 + instVel * 0.4;
 
-                pitchTarget = Math.max(-0.55, Math.min(0.7, pitchTarget + dy * 0.0016));
+                pitchTarget = Math.max(-0.6, Math.min(0.75, pitchTarget + dy * 0.0016));
             }, { passive: true });
 
             window.addEventListener('pointerup', function (e) {
                 if (e.pointerId !== activePointerId) return;
-                var wasClick = moved < 8 && performance.now() - downT < 450;
                 endDrag(true);
-                if (wasClick) setOpen(!open);
             });
 
             window.addEventListener('pointercancel', function (e) {
@@ -643,6 +385,40 @@
                 if (document.hidden && dragging) endDrag(false);
             });
 
+            /* ---------- Model yükle ---------- */
+            var loader = new GLTFLoader();
+            loader.load('models/walnut.glb', function (gltf) {
+                var root = gltf.scene;
+                root.traverse(function (o) {
+                    if (o.isMesh) {
+                        o.material.side = THREE.DoubleSide;
+                        if (o.material.map) {
+                            o.material.map.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+                        }
+                    }
+                });
+
+                /* Normalizasyon: merkez + ölçek (wrapper deseni) */
+                var box = new THREE.Box3().setFromObject(root);
+                var center = box.getCenter(new THREE.Vector3());
+                var size = box.getSize(new THREE.Vector3());
+                var scale = 2.0 / Math.max(size.x, size.y, size.z);
+
+                wrapper = new THREE.Group();
+                wrapper.add(root);
+                root.position.sub(center);
+                wrapper.scale.setScalar(scale);
+                holder.add(wrapper);
+
+                shadowMesh.material.opacity = 0.8;
+                modelReady = true;
+
+                stage.classList.add('ready');
+                if (hint) hint.textContent = 'Sürükleyip döndürün';
+            }, undefined, function () {
+                /* yükleme hatası: durgun görsel kalır */
+            });
+
             /* ---------- Render döngüsü ---------- */
             var visible = true;
             new IntersectionObserver(function (entries) {
@@ -659,7 +435,6 @@
                 var dt = Math.min((t - last) / 1000, 0.05);
                 last = t;
 
-                /* adaptif kalite: ilk 2.6 sn'de düşük FPS → DPR düş */
                 if (!perfDone) {
                     if (!perfStart) { perfStart = t; perfFrames = 0; }
                     perfFrames++;
@@ -670,37 +445,21 @@
                     }
                 }
 
-                /* aç/kapa geçişi */
-                var target = open ? 1 : 0;
-                openT += (target - openT) * Math.min(1, dt * 4.2);
-                var e = openT * openT * (3 - 2 * openT);
+                if (modelReady) {
+                    /* atalet + idle dönüş */
+                    if (!dragging) {
+                        holder.rotation.y += yawVel * dt;
+                        yawVel *= Math.exp(-4.0 * dt);
+                        if (Math.abs(yawVel) < 0.01) yawVel = 0;
+                        holder.rotation.y += dt * 0.1;
+                    }
 
-                shellFront.position.z = e * 0.95;
-                shellFront.rotation.x = -e * 0.45;
-                shellBack.position.z = -e * 0.95;
-                shellBack.rotation.x = e * 0.45;
+                    pitch += (pitchTarget - pitch) * Math.min(1, dt * 6);
+                    holder.rotation.x = pitch;
 
-                kernel.scale.set(0.86 + e * 0.06, 1.0 + e * 0.04, 0.62 + e * 0.05);
-                kernel.rotation.y += dt * 0.12;
-
-                /* kamera açılınca hafif geri çekil */
-                var camZ = 3.7 + e * 0.4;
-                camera.position.z += (camZ - camera.position.z) * Math.min(1, dt * 3);
-
-                /* atalet + idle dönüş */
-                if (!dragging) {
-                    holder.rotation.y += yawVel * dt;
-                    yawVel *= Math.exp(-4.0 * dt);
-                    if (Math.abs(yawVel) < 0.01) yawVel = 0;
-                    holder.rotation.y += dt * 0.12 * (1 - e * 0.5);
+                    /* hafif süzülme */
+                    if (wrapper) wrapper.position.y = Math.sin(t * 0.0009) * 0.03;
                 }
-
-                pitch += (pitchTarget - pitch) * Math.min(1, dt * 6);
-                holder.rotation.x = pitch;
-
-                /* hafif süzülme */
-                walnut.position.y = Math.sin(t * 0.0009) * 0.04;
-                walnut.rotation.z = Math.sin(t * 0.0006) * 0.018;
 
                 renderer.render(scene, camera);
             }
@@ -714,11 +473,6 @@
                 renderer.setSize(w, h);
             }
             window.addEventListener('resize', resize, { passive: true });
-
-            /* ---------- Hazır ---------- */
-            stage.classList.add('ready');
-            if (view) view.classList.add('ready');
-            if (hint) hint.textContent = 'Sürükleyin · dokununca açılır';
         }
     }
 

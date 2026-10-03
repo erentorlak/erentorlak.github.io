@@ -853,34 +853,7 @@ p { max-width: 68ch; }
   transition: opacity .6s ease .3s;
 }
 .walnut-stage.ready .walnut-hint { opacity: 1; }
-.walnut-toggle {
-  display: none;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 28px;
-  border-radius: 2px;
-  border: 1.5px solid var(--forest);
-  background: transparent;
-  color: var(--forest);
-  font-family: var(--font-sans);
-  font-size: .8rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background .3s var(--ease), color .3s var(--ease);
-}
-.walnut-view.ready .walnut-toggle { display: inline-flex; }
-.walnut-toggle:hover { background: var(--forest); color: var(--cream); }
-.walnut-toggle svg { width: 16px; height: 16px; }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .gallery-item img { transition: none; }
-  * { animation: none !important; }
-}
-
+.walnut-view.ready 
 
 /* ============ Yardımcı sınıflar ============ */
 .section-flush { padding-top: 0; }
