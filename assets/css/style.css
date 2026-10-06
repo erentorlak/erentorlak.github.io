@@ -6,7 +6,10 @@
 
 /* ── 1. Token ───────────────────────────────────────────────────────────── */
 :root{
-  --paper:#F0EEE9; --surface:#fff; --sand:#E4DFD6;
+  --paper:#F0EEE9; --surface:#fff;
+  --sand:#E2DACD;      /* kum — daha sıcak */
+  --clay:#D8CBBB;      /* kil — sıcak orta ton */
+  --sage:#CBD1C0;      /* adaçayı — düşük doygunluk yeşil (yaprak) */
   --espresso:#2b2118; --espresso-2:#3a2d21;
   --ink:#2C2C2C; --ink-2:#6E655B; --cream-txt:#f7f3ec;
   --accent:#b5762a;
@@ -69,11 +72,16 @@ a:not([class]):hover{border-color:var(--accent)}
 .section--dark h1,.section--dark h2,.section--dark h3{color:var(--cream-txt)}
 .section--dark .lead,.section--dark .label{color:rgba(247,243,236,.72)}
 .section--sand{background:var(--sand)}
+.section--clay{background:var(--clay)}
+.section--sage{background:var(--sage)}
+.section--clay .card,.section--sage .card{background:rgba(255,255,255,.72)}
 
 /* boşluk dağılımı: grubu sıkı, çevresini aç (Yu et al. 2023) */
 .stack{display:flex;flex-direction:column;gap:var(--group-gap)}
 .stack--loose{gap:1.5rem}
 .head{display:flex;flex-direction:column;gap:1rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.head .label{color:var(--accent)}
+.section--dark .head .label{color:var(--accent)}
 .head p{color:var(--ink-2)}
 .section--dark .head p{color:rgba(247,243,236,.72)}
 
@@ -136,9 +144,11 @@ a:not([class]):hover{border-color:var(--accent)}
 .btn--primary:hover{background:var(--espresso-2)}
 .btn--accent{background:var(--accent);color:#fff}
 .btn--accent:hover{background:#a06723}
-.btn--ghost{border-color:var(--line);color:var(--espresso)}
+.btn--ghost{border-color:var(--clay);color:var(--espresso);background:rgba(255,255,255,.5)}
 .btn--ghost:hover{border-color:var(--espresso)}
 .section--dark .btn--ghost{border-color:var(--line-dark);color:var(--cream-txt)}
+.cta-band .btn--ghost{border-color:rgba(247,243,236,.4);color:var(--cream-txt)}
+.cta-band .btn--ghost:hover{border-color:var(--cream-txt);background:rgba(247,243,236,.08)}
 .section--dark .btn--ghost:hover{border-color:var(--cream-txt)}
 .btn--wide{width:100%}
 
@@ -146,11 +156,12 @@ a:not([class]):hover{border-color:var(--accent)}
 .rule{width:56px;height:1px;background:var(--accent);border:0}   /* hairline 1px */
 .section--dark .rule{background:var(--accent)}
 
-.card{background:var(--surface);border:1px solid var(--line);padding:clamp(1.5rem,3vw,2.25rem)}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);
+      padding:clamp(1.5rem,3vw,2.25rem)}
 .card--plain{background:none;border:0;padding:0}
 .section--dark .card{background:var(--espresso-2);border-color:var(--line-dark)}
 
-.stat{display:flex;flex-direction:column;gap:.35rem}
+.stat{display:flex;flex-direction:column;gap:.35rem;padding-left:1.25rem;border-left:2px solid var(--accent)}
 .stat__v{font-family:var(--font-display);font-size:clamp(1.9rem,3.4vw,2.6rem);line-height:1;color:var(--espresso);font-variant-numeric:tabular-nums}
 .section--dark .stat__v{color:var(--cream-txt)}
 .stat__l{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
@@ -166,7 +177,7 @@ a:not([class]):hover{border-color:var(--accent)}
 
 .table{font-size:.9375rem}
 .table th,.table td{padding:.9rem 0;text-align:left;border-bottom:1px solid var(--line)}
-.table th{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+.table th{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
 .table td:last-child,.table th:last-child{text-align:right}
 .section--dark .table th,.section--dark .table td{border-color:var(--line-dark)}
 
