@@ -102,12 +102,12 @@ a:not([class]):hover{border-color:var(--accent)}
 }
 .site-header__in{
   display:flex;align-items:center;justify-content:space-between;gap:2rem;
-  min-height:72px;
+  min-height:84px;
 }
-.brand{display:flex;align-items:center;gap:.7rem}
-.brand__mark{width:34px;height:34px;flex:none}
+.brand{display:flex;align-items:center;gap:.85rem}
+.brand__mark{width:44px;height:44px;flex:none}
 .brand__txt{display:flex;flex-direction:column;line-height:1.15}
-.brand__name{font-family:var(--font-display);font-size:1.6rem;line-height:1;letter-spacing:-.005em;color:var(--espresso)}
+.brand__name{font-family:var(--font-display);font-size:2.05rem;line-height:1;letter-spacing:-.01em;color:var(--espresso)}
 .brand__sub{display:none}
 
 .nav{display:flex;align-items:center;gap:clamp(1rem,2.5vw,2rem)}
