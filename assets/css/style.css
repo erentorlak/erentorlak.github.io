@@ -97,8 +97,9 @@ a:not([class]):hover{border-color:var(--accent)}
 .skip:focus{left:1rem;top:1rem;z-index:100;background:var(--espresso);color:var(--cream-txt);padding:.75rem 1.1rem}
 
 .site-header{
-  position:sticky;top:0;z-index:50;background:rgba(240,238,233,.92);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:50;background:rgba(255,253,250,.94);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(43,33,24,.03);
 }
 .site-header__in{
   display:flex;align-items:center;justify-content:space-between;gap:2rem;
