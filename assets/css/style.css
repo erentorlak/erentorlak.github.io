@@ -109,9 +109,6 @@ a:not([class]):hover{text-decoration-color:var(--terracotta)}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:1rem;top:1rem;z-index:100;background:var(--ink);color:#fff;padding:.8rem 1.2rem;border-radius:12px}
 
-.announce{background:var(--olive);color:#fff;font-size:1rem;font-weight:600;text-align:center}
-.announce__in{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.35rem 1rem;padding-block:.6rem}
-.announce__dot{width:6px;height:6px;border-radius:99px;background:var(--butter)}
 
 .site-header{position:sticky;top:0;z-index:50;background:rgba(246,238,226,.94);backdrop-filter:blur(12px);border-bottom:2px dashed var(--line)}
 .site-header__in{display:flex;align-items:center;justify-content:space-between;gap:1.25rem;min-height:84px}
