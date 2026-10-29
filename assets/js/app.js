@@ -32,7 +32,8 @@
     var totalEl = order.querySelector('[data-total]');
     var waEl = order.querySelector('[data-wa]');
     var buttons = order.querySelectorAll('.qty button');
-    var current = { kg: 10, price: 3150 };
+    var ilkSecili = order.querySelector('.qty button[aria-pressed="true"]') || order.querySelector('.qty button');
+    var current = { kg: Number(ilkSecili.dataset.kg), price: Number(ilkSecili.dataset.price) };
 
     function render() {
       if (totalEl) totalEl.textContent = current.price.toLocaleString('tr-TR') + ' ₺';
