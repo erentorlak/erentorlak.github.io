@@ -354,3 +354,12 @@ a:not([class]):hover{text-decoration-color:var(--terracotta)}
 .table td.fiyat-hucre .toplam{font-family:var(--font-body);font-weight:600;font-size:.95rem;color:var(--ink-2);white-space:nowrap}
 .table td.fiyat-hucre .note{font-size:.95rem;color:var(--olive);white-space:nowrap}
 .table td.fiyat-hucre--sol{align-items:flex-end}
+
+/* ── header Instagram butonu ── */
+.nav .nav__ig{display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.05rem;
+  border:2.5px solid var(--ink);border-radius:999px;font-size:1rem;font-weight:700;color:var(--ink);
+  background:rgba(255,255,255,.55);white-space:nowrap;transition:background .2s,color .2s}
+.nav .nav__ig:hover{background:var(--ink);color:#fff}
+.nav .nav__ig svg{width:20px;height:20px;flex:none}
+.nav .nav__ig-txt{display:none}
+@media (min-width:1240px){.nav .nav__ig-txt{display:inline}}
