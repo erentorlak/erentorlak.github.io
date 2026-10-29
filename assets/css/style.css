@@ -335,3 +335,16 @@ a:not([class]):hover{text-decoration-color:var(--terracotta)}
   .fade{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
   .fade.is-in{opacity:1;transform:none}
 }
+
+/* ── fiyat vurgusu: birim fiyat (₺/kg) öne, toplam ikincil ── */
+.pack__unit{font-family:var(--font-display);font-weight:700;font-size:2.4rem;line-height:1;letter-spacing:-.035em;color:var(--ink)}
+.pack__unit small{font-family:var(--font-body);font-weight:600;font-size:.4em;letter-spacing:0;color:var(--ink-2)}
+.pack__total{font-family:var(--font-body);font-weight:600;font-size:1rem;color:var(--ink-2)}
+.pack__save{display:inline-block;margin-top:.45rem;font-family:var(--font-body);font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;color:var(--olive);background:var(--sage-soft);border-radius:999px;padding:.3rem .62rem}
+.pack__save--yok{background:transparent;color:var(--ink-2);font-weight:500;letter-spacing:0;text-transform:none;font-size:.9rem;padding:.3rem 0}
+.table .birim{font-family:var(--font-display);font-weight:700;font-size:1.7rem;line-height:1;letter-spacing:-.03em;color:var(--ink);white-space:nowrap}
+.table .birim small{font-family:var(--font-body);font-weight:600;font-size:.55em;color:var(--ink-2)}
+.table .toplam{font-family:var(--font-body);font-weight:600;color:var(--ink-2);white-space:nowrap}
+.order__unit-big{display:block;font-family:var(--font-display);font-weight:700;font-size:2.8rem;line-height:1;letter-spacing:-.035em;color:var(--ink)}
+.order__unit-big small{font-family:var(--font-body);font-weight:600;font-size:.38em;color:var(--ink-2)}
+.order__total{display:block;margin-top:.25rem;font-family:var(--font-body);font-weight:600;font-size:1.05rem;color:var(--ink-2)}

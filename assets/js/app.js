@@ -30,12 +30,14 @@
   var order = document.querySelector('[data-order]');
   if (order) {
     var totalEl = order.querySelector('[data-total]');
+    var unitEl = order.querySelector('[data-unit]');
     var waEl = order.querySelector('[data-wa]');
     var buttons = order.querySelectorAll('.qty button');
     var ilkSecili = order.querySelector('.qty button[aria-pressed="true"]') || order.querySelector('.qty button');
     var current = { kg: Number(ilkSecili.dataset.kg), price: Number(ilkSecili.dataset.price) };
 
     function render() {
+      if (unitEl) unitEl.innerHTML = Math.round(current.price / current.kg) + ' <small>₺/kg</small>';
       if (totalEl) totalEl.textContent = current.price.toLocaleString('tr-TR') + ' ₺';
       if (waEl) {
         var msg = 'Merhaba, ' + current.kg + ' kg ceviz (' + current.price.toLocaleString('tr-TR') +
